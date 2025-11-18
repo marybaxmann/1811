@@ -2,10 +2,11 @@ from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional, List
 from sqlalchemy import text
-from app.db import get_db          # ← CORREGIDO
+from app.db import get_db
 from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/simulador", tags=["simulador"])
+
 
 # ============================================================
 # 📌 MODELO PARA OPCIONES
@@ -19,6 +20,7 @@ class OpcionPostulacion(BaseModel):
     puntaje_corte: float
     margen: float
     ano: int
+
 
 # ============================================================
 # 📌 MODELO DETALLE CARRERA
@@ -45,7 +47,7 @@ class DetalleCarrera(BaseModel):
 
 
 # ============================================================
-# 📌 ENDPOINT PRINCIPAL SIMULADOR
+# 📌 ENDPOINT PRINCIPAL DEL SIMULADOR
 # ============================================================
 @router.post("/", response_model=List[OpcionPostulacion])
 @router.post("/simular", response_model=List[OpcionPostulacion])
@@ -92,7 +94,7 @@ def simular(data: dict, db: Session = Depends(get_db)):
                 puntaje_ponderado=ponderado,
                 puntaje_corte=corte,
                 margen=ponderado - corte,
-                ano=r["ano"],
+                ano=2024,   # ← FIX DEFINITIVO
             )
         )
 
@@ -100,7 +102,7 @@ def simular(data: dict, db: Session = Depends(get_db)):
 
 
 # ============================================================
-# 📌 DETALLE INDIVIDUAL DE CARRERA
+# 📌 DETALLE INDIVIDUAL DE UNA CARRERA
 # ============================================================
 @router.get("/detalle/{carrera_id}", response_model=DetalleCarrera)
 def detalle_carrera(carrera_id: int, db: Session = Depends(get_db)):
@@ -151,3 +153,12 @@ def detalle_carrera(carrera_id: int, db: Session = Depends(get_db)):
         latitud=row["latitud"],
         longitud=row["longitud"],
     )
+
+
+# ============================================================
+# 📌 NUEVO ENDPOINT → LISTA DE ÁREAS
+# ============================================================
+@router.get("/areas")
+def listar_areas(db: Session = Depends(get_db)):
+    rows = db.execute(text("SELECT DISTINCT area FROM carreras WHERE area IS NOT NULL")).fetchall()
+    return sorted([r[0] for r in rows])

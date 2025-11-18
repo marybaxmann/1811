@@ -3,21 +3,21 @@ body {
   margin: 0;
   font-family: "Noto Sans", Arial, sans-serif;
   background-color: #fff5f5;
-  color: #4a0000;
+  color: #086679;
 }
 
 h1, h2, h3, h4 {
-  color: #6b0000;
+  color: #0f699c;
   text-align: center;
 }
 
 p {
-  color: #4a0000;
+  color: #086679;
 }
 
 /* ==== NAVBAR ==== */
 .navbar {
-  background-color: #8b0000;
+  background-color: #007b8b;
   color: white;
   padding: 10px 0;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -127,7 +127,7 @@ button {
 }
 
 .boton-simular {
-  background-color: #8b0000;
+  background-color: #007b8b;
   color: white;
   font-size: 16px;
   margin-top: 20px;
@@ -139,7 +139,7 @@ button {
 }
 
 .boton-filtros {
-  background-color: #8b0000;
+  background-color: #007b8b;
   color: white;
   margin-bottom: 15px;
   font-size: 15px;
@@ -152,7 +152,7 @@ button {
 /* ==== NUEVOS BOTONES DE FILTROS ==== */
 .boton-filtros-ocultar,
 .boton-filtros-mostrar {
-  background-color: #8b0000;
+  background-color: #007b8b;
   color: white;
   font-size: 14px;
   border: none;
@@ -187,7 +187,7 @@ button {
   padding: 20px 30px;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border-top: 4px solid #8b0000;
+  border-top: 4px solid #007b8b;
   width: 80%;
   text-align: left;
   position: relative;
@@ -267,7 +267,7 @@ button {
 
 /* ==== FOOTER ==== */
 .footer {
-  background-color: #8b0000;
+  background-color: #007b8b;
   color: white;
   text-align: center;
   padding: 30px 20px;
@@ -350,7 +350,7 @@ button {
 
 .boton-central {
   display: inline-block;
-  background-color: #8b0000;
+  background-color: #007b8b;
   color: white;
   padding: 1rem 2.5rem;
   border-radius: 40px;
@@ -398,7 +398,7 @@ button {
 
 .card p {
   margin-top: 0.8rem;
-  color: #4a0000;
+  color: #086679;
   font-size: 0.95rem;
   line-height: 1.5;
 }
@@ -424,14 +424,14 @@ button {
 
 .descripcion {
   font-size: 1.1rem;
-  color: #4a0000;
+  color: #086679;
   margin: 0 auto 1rem auto;
 }
 
 .invitacion {
   font-weight: 600;
   margin-top: 1rem;
-  color: #4a0000;
+  color: #086679;
 }
 select {
   max-width: 350px;
