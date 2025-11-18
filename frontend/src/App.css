@@ -1,0 +1,446 @@
+/* ==== ESTILOS GENERALES ==== */
+body {
+  margin: 0;
+  font-family: "Noto Sans", Arial, sans-serif;
+  background-color: #fff5f5;
+  color: #4a0000;
+}
+
+h1, h2, h3, h4 {
+  color: #6b0000;
+  text-align: center;
+}
+
+p {
+  color: #4a0000;
+}
+
+/* ==== NAVBAR ==== */
+.navbar {
+  background-color: #8b0000;
+  color: white;
+  padding: 10px 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.logo {
+  color: white;
+  font-weight: bold;
+  font-size: 22px;
+  text-decoration: none;
+}
+
+.search-bar {
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: none;
+  width: 250px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #ffd6d6;
+}
+
+/* ==== CONTENEDORES ==== */
+.main-container {
+  min-height: 80vh;
+  padding: 40px 20px;
+}
+
+.simulador-wrapper, .opciones-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* ==== SIMULADOR ==== */
+.simulador-form-container {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  max-width: 950px;
+  margin: 40px auto;
+  border-top: 4px solid #8b0000;
+}
+
+.fila-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 260px;
+}
+
+.campo label {
+  font-weight: bold;
+  color: #6b0000;
+  margin-bottom: 5px;
+}
+
+.campo input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+/* ==== BOTONES ==== */
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 25px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.boton-simular {
+  background-color: #8b0000;
+  color: white;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.boton-simular:hover {
+  background-color: #a50000;
+  transform: scale(1.03);
+}
+
+.boton-filtros {
+  background-color: #8b0000;
+  color: white;
+  margin-bottom: 15px;
+  font-size: 15px;
+}
+
+.boton-filtros:hover {
+  background-color: #a50000;
+}
+
+/* ==== NUEVOS BOTONES DE FILTROS ==== */
+.boton-filtros-ocultar,
+.boton-filtros-mostrar {
+  background-color: #8b0000;
+  color: white;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.boton-filtros-ocultar:hover,
+.boton-filtros-mostrar:hover {
+  background-color: #a50000;
+  transform: scale(1.03);
+}
+
+/* ==== OPCIONES ==== */
+.opciones-wrapper {
+  text-align: center;
+  padding: 20px;
+}
+
+.filtros-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.filtros-card {
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #8b0000;
+  width: 80%;
+  text-align: left;
+  position: relative;
+}
+
+.fila-filtros {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.filtros-card .campo {
+  width: 45%;
+}
+
+.filtros-card input, .filtros-card select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* ==== BLOQUES DE RESULTADOS ==== */
+.bloques-opciones {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.bloque {
+  flex: 1;
+  min-width: 45%;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.accesibles {
+  background-color: #e8fce8;
+  border: 2px solid #4caf50;
+}
+
+.no-accesibles {
+  background-color: #ffecec;
+  border: 2px solid #f44336;
+}
+
+.resultado-card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 10px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.resultado-card h4 {
+  margin: 0;
+  color: #8b0000;
+}
+
+.resultado-card p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.margen.positivo {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.margen.negativo {
+  color: #b71c1c;
+  font-weight: bold;
+}
+
+/* ==== FOOTER ==== */
+.footer {
+  background-color: #8b0000;
+  color: white;
+  text-align: center;
+  padding: 30px 20px;
+  margin-top: 40px;
+}
+
+.footer h4 {
+  color: white;
+  margin-bottom: 10px;
+}
+
+.footer p {
+  color: #ffdcdc;
+  margin: 5px 0;
+}
+
+/* ==== RESPONSIVE ==== */
+@media (max-width: 768px) {
+  .fila-inputs {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .campo {
+    width: 90%;
+  }
+
+  .bloques-opciones {
+    flex-direction: column;
+  }
+
+  .filtros-card {
+    width: 95%;
+  }
+
+  .boton-filtros-ocultar,
+  .boton-filtros-mostrar {
+    display: block;
+    margin: 0 auto 15px auto;
+  }
+  .paginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.paginacion button {
+  background-color: #7b0f0f;
+  color: white;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.3s ease;
+}
+
+.paginacion button:hover {
+  background-color: #a61919;
+}
+
+.paginacion button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.paginacion span {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+}
+/* ==== INICIO (BOTÓN CENTRAL Y TARJETAS) ==== */
+.boton-central-container {
+  text-align: center;
+  margin: 2.5rem 0 3rem 0;
+}
+
+.boton-central {
+  display: inline-block;
+  background-color: #8b0000;
+  color: white;
+  padding: 1rem 2.5rem;
+  border-radius: 40px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.boton-central:hover {
+  background-color: #a50000;
+  transform: scale(1.07);
+  box-shadow: 0 6px 15px rgba(139, 0, 0, 0.4);
+}
+
+/* ==== TARJETAS ==== */
+.cards-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 15px;
+  width: 320px;
+  padding: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.card p {
+  margin-top: 0.8rem;
+  color: #4a0000;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+/* ==== CORRECCIÓN DE ALINEACIÓN EN INICIO ==== */
+.inicio-container {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.intro {
+  max-width: 900px;       /* límite para que no se estire demasiado */
+  margin: 0 auto;         /* centra horizontalmente */
+  text-align: center;     /* centra el texto */
+  line-height: 1.6;       /* mejora la lectura */
+}
+
+.titulo {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #6b0000;
+  margin-bottom: 1rem;
+}
+
+.descripcion {
+  font-size: 1.1rem;
+  color: #4a0000;
+  margin: 0 auto 1rem auto;
+}
+
+.invitacion {
+  font-weight: 600;
+  margin-top: 1rem;
+  color: #4a0000;
+}
+select {
+  max-width: 350px;
+  width: 100%;
+}
+
+select option {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
