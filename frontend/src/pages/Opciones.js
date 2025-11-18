@@ -55,7 +55,7 @@ function Opciones() {
   // Cargar ÁREAS desde backend
   // ============================================================
   useEffect(() => {
-    fetch("http://localhost:8000/simulador/areas")
+    fetch("/simulador/areas")
       .then((r) => r.json())
       .then((data) => {
         if (Array.isArray(data)) setListaAreas(data);

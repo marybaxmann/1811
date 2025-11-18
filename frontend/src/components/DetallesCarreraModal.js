@@ -7,7 +7,7 @@ function DetallesCarreraModal({ abierta, onCerrar, carrera }) {
   useEffect(() => {
     if (!abierta || !carrera) return;
 
-    fetch(`http://localhost:8000/simulador/detalle/${carrera.carrera_id}`)
+    fetch(`/simulador/detalle/${carrera.carrera_id}`)
       .then((r) => r.json())
       .then(setDetalles);
   }, [abierta, carrera]);
