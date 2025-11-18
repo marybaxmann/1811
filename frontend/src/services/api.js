@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // usa localhost en vez de 127.0.0.1
-const API_URL = "http://localhost:8080";
+const API_URL = "http://1811-production.up.railway.app";
 
 // ⚡ Crear instancia de axios con tamaño máximo aumentado
 const api = axios.create({
