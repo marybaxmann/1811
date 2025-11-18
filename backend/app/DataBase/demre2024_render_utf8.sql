@@ -3915,3 +3915,6 @@ ALTER TABLE ONLY public.carreras
 
 \unrestrict alHZYbRNEuflsqkRCHSJg0r75fNBZmcEPdmy69U1hYqWfF2DfYMal7vHsNp2stR
 
+
+
+
