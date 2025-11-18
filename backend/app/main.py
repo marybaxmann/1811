@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from app import simulador
+from pathlib import Path
+import logging
 
 app = FastAPI(
     title="Simulador PAES API",
@@ -19,6 +21,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+logger = logging.getLogger("simulador")
+
 # Incluir router principal
 app.include_router(simulador.router)
 
@@ -26,8 +30,13 @@ app.include_router(simulador.router)
 @app.get("/", tags=["default"])
 def root():
     # Serve the frontend index for the app root so the SPA loads in the browser.
-    index_path = "backend/app/static/index.html"
-    return FileResponse(index_path)
+    base_dir = Path(__file__).resolve().parent
+    static_root = base_dir / "static"
+    index_path = static_root / "index.html"
+    if index_path.exists():
+        return FileResponse(str(index_path))
+    # Fallback: return a small JSON if frontend is not present
+    return {"status": "ok", "frontend": "not_found"}
 
 @app.get("/health", tags=["default"])
 def health():
@@ -38,14 +47,34 @@ def health():
 # working directory is `backend` (see `scripts/entrypoint.sh`), so the build
 # was moved to `app/static`. Expose the JS/CSS under `/static` and serve
 # `index.html` for unknown routes to support the SPA router.
-app.mount("/static", StaticFiles(directory="backend/app/static/static"), name="static")
+# Mount static files. Compute paths relative to this file so behavior does not
+# depend on the current working directory used by the container.
+base_dir = Path(__file__).resolve().parent
+static_root = base_dir / "static"
+# CRA build usually places assets under <build>/static
+static_assets_dir = static_root / "static"
+if static_assets_dir.exists() and static_assets_dir.is_dir():
+    mount_dir = static_assets_dir
+elif static_root.exists() and static_root.is_dir():
+    mount_dir = static_root
+else:
+    # Directory missing: log and mount a non-existing path will raise at import time,
+    # so we avoid mounting and let requests fall back to the root handler.
+    logger.warning(f"Frontend static directory not found: {static_root}")
+    mount_dir = None
+
+if mount_dir:
+    app.mount("/static", StaticFiles(directory=str(mount_dir)), name="static")
 
 
 @app.get("/{full_path:path}", include_in_schema=False)
 def spa_catch_all(full_path: str):
     # If a request does not match an API route, return the SPA index.html
-    index_path = "backend/app/static/index.html"
-    return FileResponse(index_path)
+    base_dir = Path(__file__).resolve().parent
+    index_path = base_dir / "static" / "index.html"
+    if index_path.exists():
+        return FileResponse(str(index_path))
+    return {"status": "ok", "frontend": "not_found"}
 
 
 if __name__ == "__main__":
