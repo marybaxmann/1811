@@ -32,7 +32,7 @@ RUN cd frontend && npm run build --silent \
 COPY scripts/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-EXPOSE 8000
+EXPOSE 8080
 
 # Entrypoint usa la variable de entorno PORT puesta por Railway. Por defecto 8000.
 CMD ["/entrypoint.sh"]

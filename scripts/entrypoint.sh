@@ -1,6 +1,6 @@
 #!/bin/sh
 # Entrypoint para Docker/Railway: arranca uvicorn con el PORT que provea el entorno.
-PORT=${PORT:-8000}
+PORT=${PORT:-8080}
 echo "--- Entrypoint start ---"
 echo "PORT=${PORT}"
 echo "PWD=$(pwd)"
