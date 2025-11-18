@@ -11,7 +11,10 @@ WORKDIR /app
 
 # Copia package.json del frontend para instalar dependencias de frontend primero (cache layer)
 COPY frontend/package*.json frontend/
-RUN cd frontend && npm ci --silent
+# Try `npm ci` (fast, uses lockfile). If it fails (e.g. CI lockfile mismatch or peer dep errors),
+# fall back to `npm install` with `--legacy-peer-deps` to avoid build failure on Railway.
+RUN cd frontend \
+    && npm ci --silent || npm install --silent --legacy-peer-deps --no-audit --progress=false --unsafe-perm
 
 # Copia requirements y instala dependencias Python
 COPY backend/requirements.txt backend/
