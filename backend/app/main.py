@@ -25,7 +25,9 @@ app.include_router(simulador.router)
 # Endpoints base de verificación
 @app.get("/", tags=["default"])
 def root():
-    return {"ok": True, "msg": "Simulador PAES API"}
+    # Serve the frontend index for the app root so the SPA loads in the browser.
+    index_path = "backend/app/static/index.html"
+    return FileResponse(index_path)
 
 @app.get("/health", tags=["default"])
 def health():
@@ -36,13 +38,13 @@ def health():
 # working directory is `backend` (see `scripts/entrypoint.sh`), so the build
 # was moved to `app/static`. Expose the JS/CSS under `/static` and serve
 # `index.html` for unknown routes to support the SPA router.
-app.mount("/static", StaticFiles(directory="app/static/static"), name="static")
+app.mount("/static", StaticFiles(directory="backend/app/static/static"), name="static")
 
 
 @app.get("/{full_path:path}", include_in_schema=False)
 def spa_catch_all(full_path: str):
     # If a request does not match an API route, return the SPA index.html
-    index_path = "app/static/index.html"
+    index_path = "backend/app/static/index.html"
     return FileResponse(index_path)
 
 
