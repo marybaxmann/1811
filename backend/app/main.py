@@ -7,18 +7,18 @@ import logging
 
 from app import simulador
 
-# ===========================
-#  CONFIGURACIÓN BASE
-# ===========================
+# ============================
+# APP BASE
+# ============================
 app = FastAPI(
     title="Simulador PAES API",
     version="1.0.0",
     contact={"name": "Simulador PAES"},
 )
 
-# ===========================
-#  CORS
-# ===========================
+# ============================
+# CORS
+# ============================
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -27,59 +27,64 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ===========================
-#  STATIC SIN CACHE
-# ===========================
+# ============================
+# STATIC SIN CACHE
+# ============================
 class NoCacheStaticFiles(StaticFiles):
     async def get_response(self, path, scope):
         response = await super().get_response(path, scope)
         response.headers["Cache-Control"] = "no-store"
         return response
 
-# Ruta absoluta correcta hacia backend/app/static
 BASE_DIR = Path(__file__).resolve().parent
-STATIC_DIR = BASE_DIR / "static"
+FRONTEND_DIR = BASE_DIR / "static"      # contiene index.html
+STATIC_ASSETS = FRONTEND_DIR / "static"  # contiene css/js/img
 
-# Montar archivos estáticos
-app.mount(
-    "/static",
-    NoCacheStaticFiles(directory=str(STATIC_DIR)),
-    name="static",
-)
+# === FIX REAL ===
+# Si existe la carpeta /static/static → montarla
+if STATIC_ASSETS.exists():
+    app.mount(
+        "/static",
+        NoCacheStaticFiles(directory=str(STATIC_ASSETS)),
+        name="static",
+    )
+else:
+    # fallback: montar /static por si solo
+    app.mount(
+        "/static",
+        NoCacheStaticFiles(directory=str(FRONTEND_DIR)),
+        name="static",
+    )
 
-# ===========================
-#  ROUTER PRINCIPAL
-# ===========================
+# ============================
+# ROUTER BACKEND
+# ============================
 logger = logging.getLogger("simulador")
 app.include_router(simulador.router)
 
-# ===========================
-#  RUTA BASE DEL FRONTEND
-# ===========================
-@app.get("/", tags=["default"])
+# ============================
+# SERVIR index.html
+# ============================
+@app.get("/", include_in_schema=False)
 def root():
-    index_path = STATIC_DIR / "index.html"
-    if index_path.exists():
-        return FileResponse(str(index_path))
-    return {"status": "ok", "frontend": "not_found"}
+    index_file = FRONTEND_DIR / "index.html"
+    if index_file.exists():
+        return FileResponse(str(index_file))
+    return {"frontend": "index.html not found"}
 
-@app.get("/health", tags=["default"])
-def health():
-    return {"status": "ok"}
-
-# ===========================
-#  SPA CATCH-ALL (react router)
-# ===========================
+# ============================
+# REACT SPA CATCH-ALL
+# ============================
 @app.get("/{full_path:path}", include_in_schema=False)
 def spa(full_path: str):
-    index_path = STATIC_DIR / "index.html"
-    if index_path.exists():
-        return FileResponse(str(index_path))
-    return {"status": "ok", "frontend": "not_found"}
+    index_file = FRONTEND_DIR / "index.html"
+    if index_file.exists():
+        return FileResponse(str(index_file))
+    return {"frontend": "index.html not found"}
 
-# ===========================
-#  SERVER LOCAL
-# ===========================
+# ============================
+# LOCAL SERVER
+# ============================
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
