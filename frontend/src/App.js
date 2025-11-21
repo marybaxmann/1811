@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Inicio from "./pages/Inicio";
 import Simulador from "./pages/Simulador";
 import Opciones from "./pages/Opciones";
-import Detalles from "./pages/Detalles";
 import "./App.css";
 
 function App() {
