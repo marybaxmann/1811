@@ -2,38 +2,23 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-from app import simulador
 from pathlib import Path
 import logging
-from fastapi.staticfiles import StaticFiles
-from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+from app import simulador
 
-# Evitar cache para archivos estáticos
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-class NoCacheStaticFiles(StaticFiles):
-    async def get_response(self, path, scope):
-        response = await super().get_response(path, scope)
-        response.headers["Cache-Control"] = "no-store"
-        return response
-
-app.mount("/static", NoCacheStaticFiles(directory="app/static"), name="static")
-
+# ===========================
+#  CONFIGURACIÓN BASE
+# ===========================
 app = FastAPI(
     title="Simulador PAES API",
     version="1.0.0",
     contact={"name": "Simulador PAES"},
 )
 
-# Middleware CORS
+# ===========================
+#  CORS
+# ===========================
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -42,62 +27,59 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-logger = logging.getLogger("simulador")
+# ===========================
+#  STATIC SIN CACHE
+# ===========================
+class NoCacheStaticFiles(StaticFiles):
+    async def get_response(self, path, scope):
+        response = await super().get_response(path, scope)
+        response.headers["Cache-Control"] = "no-store"
+        return response
 
-# Incluir router principal
+# Ruta absoluta correcta hacia backend/app/static
+BASE_DIR = Path(__file__).resolve().parent
+STATIC_DIR = BASE_DIR / "static"
+
+# Montar archivos estáticos
+app.mount(
+    "/static",
+    NoCacheStaticFiles(directory=str(STATIC_DIR)),
+    name="static",
+)
+
+# ===========================
+#  ROUTER PRINCIPAL
+# ===========================
+logger = logging.getLogger("simulador")
 app.include_router(simulador.router)
 
-# Endpoints base de verificación
+# ===========================
+#  RUTA BASE DEL FRONTEND
+# ===========================
 @app.get("/", tags=["default"])
 def root():
-    # Serve the frontend index for the app root so the SPA loads in the browser.
-    base_dir = Path(__file__).resolve().parent
-    static_root = base_dir / "static"
-    index_path = static_root / "index.html"
+    index_path = STATIC_DIR / "index.html"
     if index_path.exists():
         return FileResponse(str(index_path))
-    # Fallback: return a small JSON if frontend is not present
     return {"status": "ok", "frontend": "not_found"}
 
 @app.get("/health", tags=["default"])
 def health():
     return {"status": "ok"}
 
-
-# Mount static files (frontend build). When running inside the container the
-# working directory is `backend` (see `scripts/entrypoint.sh`), so the build
-# was moved to `app/static`. Expose the JS/CSS under `/static` and serve
-# `index.html` for unknown routes to support the SPA router.
-# Mount static files. Compute paths relative to this file so behavior does not
-# depend on the current working directory used by the container.
-base_dir = Path(__file__).resolve().parent
-static_root = base_dir / "static"
-# CRA build usually places assets under <build>/static
-static_assets_dir = static_root / "static"
-if static_assets_dir.exists() and static_assets_dir.is_dir():
-    mount_dir = static_assets_dir
-elif static_root.exists() and static_root.is_dir():
-    mount_dir = static_root
-else:
-    # Directory missing: log and mount a non-existing path will raise at import time,
-    # so we avoid mounting and let requests fall back to the root handler.
-    logger.warning(f"Frontend static directory not found: {static_root}")
-    mount_dir = None
-
-if mount_dir:
-    app.mount("/static", StaticFiles(directory=str(mount_dir)), name="static")
-
-
+# ===========================
+#  SPA CATCH-ALL (react router)
+# ===========================
 @app.get("/{full_path:path}", include_in_schema=False)
-def spa_catch_all(full_path: str):
-    # If a request does not match an API route, return the SPA index.html
-    base_dir = Path(__file__).resolve().parent
-    index_path = base_dir / "static" / "index.html"
+def spa(full_path: str):
+    index_path = STATIC_DIR / "index.html"
     if index_path.exists():
         return FileResponse(str(index_path))
     return {"status": "ok", "frontend": "not_found"}
 
-
+# ===========================
+#  SERVER LOCAL
+# ===========================
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

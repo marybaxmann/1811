@@ -14,34 +14,49 @@ function DetallesCarreraModal({ abierta, onCerrar, carrera }) {
 
   if (!abierta || !detalles) return null;
 
-  // LINK Maps → Busca Casa Central exacta
   const linkMaps = detalles.universidad
     ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-        `${detalles.universidad} Casa Central`
+        `${detalles.universidad} casa central`
       )}`
     : null;
 
+  const linkSitio =
+    detalles.sitio_web && detalles.sitio_web !== ""
+      ? detalles.sitio_web.startsWith("http")
+        ? detalles.sitio_web
+        : "https://" + detalles.sitio_web
+      : null;
+
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
-
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        {/* Botón X centrado */}
         <button className="modal-close" onClick={onCerrar}>✖</button>
 
         <h2>{detalles.nombre}</h2>
         <h3>{detalles.universidad}</h3>
 
         <p><strong>Área:</strong> {detalles.area ?? "No informada"}</p>
-        <p><strong>Duración:</strong> {detalles.duracion ? `${detalles.duracion} semestres` : "No informada"}</p>
-        <p><strong>Vacantes:</strong> {detalles.vacantes ?? "No informadas"}</p>
-        <p><strong>Arancel:</strong> {detalles.arancel ? `$${detalles.arancel.toLocaleString()}` : "No informado"}</p>
+        <p><strong>Duración:</strong> {detalles.duracion} semestres</p>
+        <p><strong>Vacantes:</strong> {detalles.vacantes}</p>
+        <p><strong>Arancel:</strong> ${detalles.arancel?.toLocaleString()}</p>
 
-        <p><strong>Acreditación:</strong> {detalles.acreditacion ?? "Sin información"}</p>
-        <p><strong>Tipo acreditación:</strong> {detalles.tipo_acreditacion ?? "No informado"}</p>
+        <p><strong>Acreditación:</strong> {detalles.acreditacion}</p>
+        <p><strong>Tipo acreditación:</strong> {detalles.tipo_acreditacion}</p>
 
-        <p><strong>Sitio web:</strong> {detalles.sitio_web ?? "No informado"}</p>
-        <p><strong>Región:</strong> {detalles.region ?? "No informada"}</p>
+        <p>
+          <strong>Sitio web:</strong>{" "}
+          {linkSitio ? (
+            <a href={linkSitio} target="_blank" rel="noopener noreferrer">
+              {linkSitio}
+            </a>
+          ) : (
+            "No informado"
+          )}
+        </p>
 
-        {/* Dirección = SIEMPRE "Casa Central" */}
+        <p><strong>Región:</strong> {detalles.region}</p>
+
         <p>
           <strong>Dirección:</strong>{" "}
           {linkMaps ? (
@@ -52,7 +67,6 @@ function DetallesCarreraModal({ abierta, onCerrar, carrera }) {
             "Casa Central"
           )}
         </p>
-
       </div>
     </div>
   );
