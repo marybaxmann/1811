@@ -14,13 +14,11 @@ function DetallesCarreraModal({ abierta, onCerrar, carrera }) {
 
   if (!abierta || !detalles) return null;
 
-  // Buscador por nombre + fallback a coordenadas
+  // LINK Maps → Busca Casa Central exacta
   const linkMaps = detalles.universidad
     ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-        `${detalles.universidad} casa central`
+        `${detalles.universidad} Casa Central`
       )}`
-    : detalles.latitud && detalles.longitud
-    ? `https://www.google.com/maps?q=${detalles.latitud},${detalles.longitud}`
     : null;
 
   return (
@@ -43,7 +41,7 @@ function DetallesCarreraModal({ abierta, onCerrar, carrera }) {
         <p><strong>Sitio web:</strong> {detalles.sitio_web ?? "No informado"}</p>
         <p><strong>Región:</strong> {detalles.region ?? "No informada"}</p>
 
-        {/* Dirección SÓLO Casa Central */}
+        {/* Dirección = SIEMPRE "Casa Central" */}
         <p>
           <strong>Dirección:</strong>{" "}
           {linkMaps ? (
