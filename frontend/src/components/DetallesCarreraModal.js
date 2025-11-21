@@ -12,17 +12,20 @@ function DetallesCarreraModal({ abierta, onCerrar, carrera }) {
       .then(setDetalles);
   }, [abierta, carrera]);
 
-  if (!abierta) return null;
-  if (!detalles) return null;
+  if (!abierta || !detalles) return null;
 
-  const linkMaps = detalles.latitud && detalles.longitud
-    ? `https://www.google.com/maps?q=${detalles.latitud},${detalles.longitud}`
-    : null;
+  const linkMaps =
+    detalles.latitud && detalles.longitud
+      ? `https://www.google.com/maps?q=${detalles.latitud},${detalles.longitud}`
+      : null;
 
   return (
     <div className="modal-overlay">
-      <div className="modal">
-        <button className="cerrar" onClick={onCerrar}>✖</button>
+      <div className="modal-content">
+
+        <button className="modal-close" onClick={onCerrar}>
+          ✖
+        </button>
 
         <h2>{detalles.nombre}</h2>
         <h3>{detalles.universidad}</h3>
@@ -42,9 +45,15 @@ function DetallesCarreraModal({ abierta, onCerrar, carrera }) {
           <strong>Dirección:</strong>{" "}
           {detalles.direccion ? (
             linkMaps ? (
-              <a href={linkMaps} target="_blank" rel="noopener noreferrer">{detalles.direccion}</a>
-            ) : detalles.direccion
-          ) : "No informada"}
+              <a href={linkMaps} target="_blank" rel="noopener noreferrer">
+                {detalles.direccion}
+              </a>
+            ) : (
+              detalles.direccion
+            )
+          ) : (
+            "No informada"
+          )}
         </p>
 
         <p>
