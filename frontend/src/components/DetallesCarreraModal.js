@@ -23,9 +23,7 @@ function DetallesCarreraModal({ abierta, onCerrar, carrera }) {
     <div className="modal-overlay">
       <div className="modal-content">
 
-        <button className="modal-close" onClick={onCerrar}>
-          ✖
-        </button>
+        <button className="modal-close" onClick={onCerrar}>✖</button>
 
         <h2>{detalles.nombre}</h2>
         <h3>{detalles.universidad}</h3>
@@ -51,9 +49,7 @@ function DetallesCarreraModal({ abierta, onCerrar, carrera }) {
             ) : (
               detalles.direccion
             )
-          ) : (
-            "No informada"
-          )}
+          ) : "No informada"}
         </p>
 
         <p>

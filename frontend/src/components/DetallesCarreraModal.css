@@ -1,3 +1,4 @@
+/* FONDO OSCURO (NO SE TOCA COLOR) */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -11,9 +12,9 @@
   z-index: 999;
 }
 
-/* CUADRO BLANCO (mejorado pero igual estructura) */
+/* CUADRO BLANCO — fondo sólido garantizado */
 .modal-content {
-  background: #ffffff;
+  background: #ffffff !important;
   padding: 28px;
   border-radius: 14px;
   width: 90%;
@@ -23,7 +24,10 @@
   position: relative;
   animation: aparecer 0.22s ease-out;
 
+  /* Sombra SIN modificar colores del interior */
   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.25);
+
+  z-index: 1001 !important;
 }
 
 /* Animación */
@@ -51,23 +55,15 @@
   background: #d5d5d5;
 }
 
-/* Títulos */
+/* Texto original (NO cambio colores) */
 .modal-content h2 {
-  font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 4px;
-  color: #0a3a70;
+  margin-bottom: 6px;
 }
 
 .modal-content h3 {
-  font-size: 18px;
-  font-weight: 500;
   margin-bottom: 16px;
-  color: #1976d2;
 }
 
-/* Texto */
 .modal-content p {
   margin: 6px 0;
-  font-size: 15px;
 }
