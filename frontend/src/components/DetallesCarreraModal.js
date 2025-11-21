@@ -14,14 +14,14 @@ function DetallesCarreraModal({ abierta, onCerrar, carrera }) {
 
   if (!abierta || !detalles) return null;
 
-    const linkMaps = detalles.universidad
+  // Buscador por nombre + fallback a coordenadas
+  const linkMaps = detalles.universidad
     ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
         `${detalles.universidad} casa central`
       )}`
-    : (detalles.latitud && detalles.longitud
-        ? `https://www.google.com/maps?q=${detalles.latitud},${detalles.longitud}`
-        : null);
-
+    : detalles.latitud && detalles.longitud
+    ? `https://www.google.com/maps?q=${detalles.latitud},${detalles.longitud}`
+    : null;
 
   return (
     <div className="modal-overlay">
@@ -43,7 +43,7 @@ function DetallesCarreraModal({ abierta, onCerrar, carrera }) {
         <p><strong>Sitio web:</strong> {detalles.sitio_web ?? "No informado"}</p>
         <p><strong>Región:</strong> {detalles.region ?? "No informada"}</p>
 
-        
+        {/* Dirección SÓLO Casa Central */}
         <p>
           <strong>Dirección:</strong>{" "}
           {linkMaps ? (
@@ -55,12 +55,6 @@ function DetallesCarreraModal({ abierta, onCerrar, carrera }) {
           )}
         </p>
 
-        <p>
-          <strong>Coordenadas:</strong>{" "}
-          {detalles.latitud && detalles.longitud
-            ? `${detalles.latitud}, ${detalles.longitud}`
-            : "No disponibles"}
-        </p>
       </div>
     </div>
   );
