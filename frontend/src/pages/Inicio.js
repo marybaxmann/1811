@@ -1,69 +1,71 @@
 // src/pages/Inicio.js
 import React from "react";
 import { Link } from "react-router-dom";
-import "../styles/Inicio.css"; // Usa tu carpeta de estilos
+import "../App.css";
 
 function Inicio() {
   return (
-    <div className="landing-container">
+    <div className="inicio-container">
+      <section className="intro">
+        <h1 className="titulo">Bienvenido a Simulador de Puntaje PAES</h1>
 
-      {/* HERO SECTION */}
-      <section className="hero">
-        <h1 className="hero-title">Simulador de Puntaje PAES</h1>
-
-        <p className="hero-subtitle">
-          Compara tus puntajes, analiza tus opciones universitarias y toma
-          decisiones informadas para tu futuro académico.
+        <p className="descripcion">
+          Simulador PAES es una plataforma educativa que permite comparar tus puntajes 
+          con los requisitos de universidades y carreras en Chile. 
+          Una herramienta práctica para planificar tu futuro académico 
+          y tomar decisiones informadas sobre tu educación.
         </p>
 
-        <Link to="/simulador" className="hero-button">
-          🚀 Comenzar Simulación
-        </Link>
+        <p className="invitacion">
+          ¡Únete a nosotros y prepárate para alcanzar tus metas académicas!
+        </p>
+
+        {/* 🔹 BOTÓN CENTRAL GRANDE */}
+        <div className="boton-central-container">
+          <Link to="/simulador" className="boton-central">
+            🚀 Comenzar Simulación
+          </Link>
+        </div>
       </section>
 
-      {/* DATOS DESTACADOS */}
-      <section className="stats-section">
-        <h2 className="section-title">Datos Destacados</h2>
+      <section className="destacados">
+        <h2>Datos destacados</h2>
 
-        <div className="stats-grid">
-          <div className="stat-card">
+        <div className="cards-container">
+          <div className="card">
             <img
               src={process.env.PUBLIC_URL + "/img/estudiantes1.jpg"}
               alt="Estudiantes 1"
-              className="stat-img"
             />
             <p>
-              El <strong>77.3%</strong> de los estudiantes de pregrado continúan
-              sus estudios tras el primer año.
+              El <strong>77.3%</strong> de los estudiantes de pregrado 
+              permanecen en sus carreras tras el primer año.
             </p>
           </div>
 
-          <div className="stat-card">
+          <div className="card">
             <img
               src={process.env.PUBLIC_URL + "/img/estudiantes2.jpg"}
               alt="Estudiantes 2"
-              className="stat-img"
             />
             <p>
-              La matrícula en Educación Superior en Chile aumentó un
-              <strong> 5%</strong> en 2025.
+              El sistema de Educación Superior en Chile aumentó 
+              sus matrículas en <strong>5%</strong> en 2025.
             </p>
           </div>
 
-          <div className="stat-card">
+          <div className="card">
             <img
               src={process.env.PUBLIC_URL + "/img/estudiantes3.jpg"}
               alt="Estudiantes 3"
-              className="stat-img"
             />
             <p>
-              Más de <strong>250.000</strong> jóvenes postulan al sistema PAES
-              cada año.
+              Más de <strong>250.000</strong> jóvenes postulan cada año 
+              a través del sistema PAES.
             </p>
           </div>
         </div>
       </section>
-
     </div>
   );
 }
