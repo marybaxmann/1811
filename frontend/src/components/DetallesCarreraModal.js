@@ -14,21 +14,17 @@ function DetallesCarreraModal({ abierta, onCerrar, carrera }) {
 
   if (!abierta || !detalles) return null;
 
-  // --- LINK GOOGLE MAPS (Casa Central exacto) ---
-  const linkMaps = detalles.latitud && detalles.longitud
-    ? `https://www.google.com/maps?q=${detalles.latitud},${detalles.longitud}`
+  // LINK Maps → Busca Casa Central exacta
+  const linkMaps = detalles.universidad
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        `${detalles.universidad} Casa Central`
+      )}`
     : null;
 
-  // --- Cerrar modal haciendo click fuera ---
-  const handleOverlayClick = (e) => {
-    if (e.target.classList.contains("modal-overlay")) {
-      onCerrar();
-    }
-  };
-
   return (
-    <div className="modal-overlay" onClick={handleOverlayClick}>
+    <div className="modal-overlay">
       <div className="modal-content">
+
         <button className="modal-close" onClick={onCerrar}>✖</button>
 
         <h2>{detalles.nombre}</h2>
@@ -42,19 +38,10 @@ function DetallesCarreraModal({ abierta, onCerrar, carrera }) {
         <p><strong>Acreditación:</strong> {detalles.acreditacion ?? "Sin información"}</p>
         <p><strong>Tipo acreditación:</strong> {detalles.tipo_acreditacion ?? "No informado"}</p>
 
-        {/* Sitio web clickeable */}
-        <p>
-          <strong>Sitio web:</strong>{" "}
-          {detalles.sitio_web ? (
-            <a href={detalles.sitio_web} target="_blank" rel="noopener noreferrer">
-              {detalles.sitio_web}
-            </a>
-          ) : "No informado"}
-        </p>
-
+        <p><strong>Sitio web:</strong> {detalles.sitio_web ?? "No informado"}</p>
         <p><strong>Región:</strong> {detalles.region ?? "No informada"}</p>
 
-        {/* Dirección con link a Google Maps */}
+        {/* Dirección = SIEMPRE "Casa Central" */}
         <p>
           <strong>Dirección:</strong>{" "}
           {linkMaps ? (
