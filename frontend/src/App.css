@@ -237,13 +237,23 @@ button {
   border: 2px solid #f44336;
 }
 
+/* ==== TARJETAS DE RESULTADOS (CLICKABLE) ==== */
 .resultado-card {
   background-color: #fff;
   border-radius: 10px;
   padding: 15px;
   margin: 10px 0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  cursor: pointer;              /* 👈 Ahora aparece la manito */
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
+
+.resultado-card:hover {
+  transform: scale(1.02);       /* 👈 Efecto al pasar el mouse */
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+}
+
 
 .resultado-card h4 {
   margin: 0;
@@ -424,7 +434,7 @@ button {
 
 .descripcion {
   font-size: 1.1rem;
-  color: #086679;
+  color: #0f699c;
   margin: 0 auto 1rem auto;
 }
 
