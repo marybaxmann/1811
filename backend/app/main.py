@@ -5,6 +5,27 @@ from fastapi.responses import FileResponse
 from app import simulador
 from pathlib import Path
 import logging
+from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI()
+
+# Evitar cache para archivos estáticos
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+class NoCacheStaticFiles(StaticFiles):
+    async def get_response(self, path, scope):
+        response = await super().get_response(path, scope)
+        response.headers["Cache-Control"] = "no-store"
+        return response
+
+app.mount("/static", NoCacheStaticFiles(directory="app/static"), name="static")
 
 app = FastAPI(
     title="Simulador PAES API",
