@@ -14,95 +14,134 @@ function DetallesCarreraModal({ abierta, onCerrar, carrera }) {
 
   if (!abierta || !detalles) return null;
 
-  // ================================
-  // DIRECCIONES CASA CENTRAL (corregidas)
-  // ================================
-  const DIRECCIONES_CASA_CENTRAL = {
-    "Universidad de Chile":
-      "Av. Libertador Bernardo O'Higgins 1058, Santiago",
-    "Pontificia Universidad Cat├│lica de Chile":
-      "Av. Libertador Bernardo O'Higgins 340, Santiago",
-    "Universidad de Concepci├│n":
-      "Edmundo Larenas 120, Concepción",
-    "Pontificia Universidad Cat├│lica de Valpara├¡so":
-      "Av. Brasil 2950, Valparaíso",
-    "Universidad T├®cnica Federico Santa Mar├¡a":
-      "Av. España 1680, Valparaíso",
-    "Universidad de Santiago de Chile":
-      "Av. Libertador Bernardo O'Higgins 3363, Estación Central, Santiago",
-    "Universidad Austral de Chile":
-      "Independencia 641, Valdivia",
-    "Universidad de Valpara├¡so":
-      "Av. Blanco 951, Valparaíso",
-    "Universidad Cat├│lica del Norte":
-      "Av. Angamos 610, Antofagasta",
-    "Universidad Metropolitana de Ciencias de la Educaci├│n":
-      "Av. José Pedro Alessandri 774, Ñuñoa",
-    "Universidad Tecnol├│gica Metropolitana":
-      "Av. Dieciocho 161, Santiago",
-    "Universidad de Tarapac├í":
-      "Av. 18 de Septiembre 2222, Arica",
-    "Universidad Arturo Prat":
-      "Av. Arturo Prat 2120, Iquique",
-    "Universidad de Antofagasta":
-      "Av. Angamos 601, Antofagasta",
-    "Universidad de La Serena":
-      "Amunátegui 851, La Serena",
-    "Universidad de Atacama":
-      "Av. Copayapu 485, Copiapó",
-    "Universidad del B├¡o-B├¡o":
-      "Av. Collao 1202, Concepción",
-    "Universidad de La Frontera":
-      "Av. Francisco Salazar 01145, Temuco",
-    "Universidad de Los Lagos":
-      "Av. Fuchslocher 1305, Osorno",
-    "Universidad de Magallanes":
-      "Av. Bulnes 01855, Punta Arenas",
-    "Universidad de Talca":
-      "Avenida Lircay s/n, Talca",
-    "Universidad Cat├│lica del Maule":
-      "Av. San Miguel 3605, Talca",
-    "Universidad Cat├│lica de la Sant├¡sima Concepci├│n":
-      "Alonso de Ribera 2850, Concepción",
-    "Universidad Cat├│lica de Temuco":
-      "Manuel Montt 056, Temuco",
-    "Universidad Diego Portales":
-      "Av. Ejército Libertador 441, Santiago",
-    "Universidad Mayor":
-      "Av. Manuel Montt 367, Providencia, Santiago",
-    "Universidad Finis Terrae":
-      "Av. Pedro de Valdivia 1509, Providencia, Santiago",
-    "Universidad Andr├®s Bello":
-      "Av. República 239, Santiago",
-    "Universidad Adolfo Ib├í├▒ez":
-      "Av. Diagonal Las Torres 2640, Peñalolén, Santiago",
-    "Universidad de los Andes":
-      "Av. Mons. Álvaro del Portillo 12455, Las Condes, Santiago",
-    "Universidad del Desarrollo":
-      "Av. Plaza 680, Las Condes, Santiago",
-    "Universidad Alberto Hurtado":
-      "Almirante Barroso 10, Santiago",
-    "Universidad Cat├│lica Silva Henr├¡quez":
-      "General Jofré 462, Santiago",
-    "Universidad Aut├│noma de Chile":
-      "Av. Pedro de Valdivia 641, Providencia, Santiago",
-    "Universidad San Sebasti├ín":
-      "Lota 2465, Providencia, Santiago",
-    "Universidad Central de Chile":
-      "Av. Santa Isabel 1186, Santiago",
-    "Universidad Academia de Humanismo Cristiano":
-      "Condell 343, Providencia, Santiago",
-    "Universidad Bernardo O'Higgins":
-      "Avenida Viel 1497, Santiago",
-    "Universidad Gabriela Mistral":
-      "Ricardo Lyon 1177, Providencia, Santiago",
-    "Universidad Santo Tom├ís":
-      "Ejército 146, Santiago",
-    "Universidad de las Am├®ricas":
-      "Av. Antonio Varas 880, Providencia, Santiago",
-    "Universidad Adventista de Chile":
-      "Avenida Libertador Bernardo O'Higgins 03434, Chillán"
-  };
+const DIRECCIONES_CASA_CENTRAL = {
+  "Universidad de Chile":
+    "Av. Libertador Bernardo O'Higgins 1058, Santiago",
+
+  "Pontificia Universidad Católica de Chile":
+    "Av. Libertador Bernardo O'Higgins 340, Santiago",
+
+  "Universidad de Concepción":
+    "Edmundo Larenas 120, Concepción",
+
+  "Pontificia Universidad Católica de Valparaíso":
+    "Av. Brasil 2950, Valparaíso",
+
+  "Universidad Técnica Federico Santa María":
+    "Av. España 1680, Valparaíso",
+
+  "Universidad de Santiago de Chile":
+    "Av. Libertador Bernardo O'Higgins 3363, Estación Central, Santiago",
+
+  "Universidad Austral de Chile":
+    "Independencia 641, Valdivia",
+
+  "Universidad de Valparaíso":
+    "Av. Blanco 951, Valparaíso",
+
+  "Universidad Católica del Norte":
+    "Av. Angamos 610, Antofagasta",
+
+  "Universidad Metropolitana de Ciencias de la Educación":
+    "Av. José Pedro Alessandri 774, Ñuñoa",
+
+  "Universidad Tecnológica Metropolitana":
+    "Av. Dieciocho 161, Santiago",
+
+  "Universidad de Tarapacá":
+    "Av. 18 de Septiembre 2222, Arica",
+
+  "Universidad Arturo Prat":
+    "Av. Arturo Prat 2120, Iquique",
+
+  "Universidad de Antofagasta":
+    "Av. Angamos 601, Antofagasta",
+
+  "Universidad de La Serena":
+    "Amunátegui 851, La Serena",
+
+  "Universidad de Atacama":
+    "Av. Copayapu 485, Copiapó",
+
+  "Universidad del Bío-Bío":
+    "Av. Collao 1202, Concepción",
+
+  "Universidad de La Frontera":
+    "Av. Francisco Salazar 01145, Temuco",
+
+  "Universidad de Los Lagos":
+    "Av. Fuchslocher 1305, Osorno",
+
+  "Universidad de Magallanes":
+    "Av. Bulnes 01855, Punta Arenas",
+
+  "Universidad de Talca":
+    "Avenida Lircay s/n, Talca",
+
+  "Universidad Católica del Maule":
+    "Av. San Miguel 3605, Talca",
+
+  "Universidad Católica de la Santísima Concepción":
+    "Alonso de Ribera 2850, Concepción",
+
+  "Universidad Católica de Temuco":
+    "Manuel Montt 056, Temuco",
+
+  "Universidad Diego Portales":
+    "Av. Ejército Libertador 441, Santiago",
+
+  "Universidad Mayor":
+    "Av. Manuel Montt 367, Providencia, Santiago",
+
+  "Universidad Finis Terrae":
+    "Av. Pedro de Valdivia 1509, Providencia, Santiago",
+
+  "Universidad Andrés Bello":
+    "Av. República 239, Santiago",
+
+  "Universidad Adolfo Ibáñez":
+    "Av. Diagonal Las Torres 2640, Peñalolén, Santiago",
+
+  "Universidad de los Andes":
+    "Av. Mons. Álvaro del Portillo 12455, Las Condes, Santiago",
+
+  "Universidad del Desarrollo":
+    "Av. Plaza 680, Las Condes, Santiago",
+
+  "Universidad Alberto Hurtado":
+    "Almirante Barroso 10, Santiago",
+
+  "Universidad Católica Silva Henríquez":
+    "General Jofré 462, Santiago",
+
+  "Universidad Autónoma de Chile":
+    "Av. Pedro de Valdivia 641, Providencia, Santiago",
+
+  "Universidad San Sebastián":
+    "Lota 2465, Providencia, Santiago",
+
+  "Universidad Central de Chile":
+    "Av. Santa Isabel 1186, Santiago",
+
+  "Universidad Academia de Humanismo Cristiano":
+    "Condell 343, Providencia, Santiago",
+
+  "Universidad Bernardo O'Higgins":
+    "Avenida Viel 1497, Santiago",
+
+  "Universidad Gabriela Mistral":
+    "Ricardo Lyon 1177, Providencia, Santiago",
+
+  "Universidad Santo Tomás":
+    "Ejército 146, Santiago",
+
+  "Universidad de las Américas":
+    "Av. Antonio Varas 880, Providencia, Santiago",
+
+  "Universidad Adventista de Chile":
+    "Avenida Libertador Bernardo O'Higgins 03434, Chillán"
+};
+
 
   // Dirección real o default
   const direccionReal =
