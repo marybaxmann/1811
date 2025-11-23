@@ -62,7 +62,7 @@ p {
 }
 
 .nav-links li a:hover {
-  color: #ffd6d6;
+  color: #bfd4d6;
 }
 
 /* ==== CONTENEDORES ==== */
@@ -85,7 +85,7 @@ p {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   max-width: 950px;
   margin: 40px auto;
-  border-top: 4px solid #8b0000;
+  border-top: 4px solid #086679;
 }
 
 .fila-inputs {
@@ -105,7 +105,7 @@ p {
 
 .campo label {
   font-weight: bold;
-  color: #6b0000;
+  color: #086679;
   margin-bottom: 5px;
 }
 
@@ -134,7 +134,7 @@ button {
 }
 
 .boton-simular:hover {
-  background-color: #a50000;
+  background-color: #086679;
   transform: scale(1.03);
 }
 
@@ -146,7 +146,7 @@ button {
 }
 
 .boton-filtros:hover {
-  background-color: #a50000;
+  background-color: #086679;
 }
 
 /* ==== NUEVOS BOTONES DE FILTROS ==== */
@@ -166,7 +166,7 @@ button {
 
 .boton-filtros-ocultar:hover,
 .boton-filtros-mostrar:hover {
-  background-color: #a50000;
+  background-color: #086679;
   transform: scale(1.03);
 }
 
@@ -233,7 +233,7 @@ button {
 }
 
 .no-accesibles {
-  background-color: #ffecec;
+  background-color: #bfd4d6;
   border: 2px solid #f44336;
 }
 
@@ -257,7 +257,7 @@ button {
 
 .resultado-card h4 {
   margin: 0;
-  color: #8b0000;
+  color: #156677;
 }
 
 .resultado-card p {
@@ -271,7 +271,7 @@ button {
 }
 
 .margen.negativo {
-  color: #b71c1c;
+  color: #156677;
   font-weight: bold;
 }
 
@@ -290,7 +290,7 @@ button {
 }
 
 .footer p {
-  color: #ffdcdc;
+  color: #bfd4d6;
   margin: 5px 0;
 }
 
@@ -327,7 +327,7 @@ button {
 }
 
 .paginacion button {
-  background-color: #a61919;
+  background-color: #086679;
   color: white;
   border: none;
   padding: 0.4rem 1rem;
@@ -338,7 +338,7 @@ button {
 }
 
 .paginacion button:hover {
-  background-color: #a61919;
+  background-color: #086679;
 }
 
 .paginacion button:disabled {
