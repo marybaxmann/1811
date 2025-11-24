@@ -129,14 +129,14 @@ function Opciones() {
 
         <div className="tabs">
           <button
-            className={`tab ${activeTab === "accesibles" ? "active" : ""}`}
+              className={`tab accesible ${activeTab === "accesibles" ? "active" : ""}`}
             onClick={() => setActiveTab("accesibles")}
           >
             ✅ Carreras accesibles ({accesibles.length})
           </button>
 
           <button
-            className={`tab ${activeTab === "no-accesibles" ? "active" : ""}`}
+              className={`tab no-accesible ${activeTab === "no-accesibles" ? "active" : ""}`}
             onClick={() => setActiveTab("no-accesibles")}
           >
             ❌ Carreras no accesibles ({noAccesibles.length})
