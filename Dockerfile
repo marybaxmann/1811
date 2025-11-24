@@ -23,10 +23,14 @@ RUN pip install --no-cache-dir -r backend/requirements.txt
 # Copia todo el proyecto
 COPY . .
 
-# Construye el frontend y mueve el build al backend/static
-RUN cd frontend && npm run build --silent \
+# Construye el frontend con PUBLIC_URL=/static y mueve el build al backend/static
+# además, si el build tiene un `img` a nivel superior (copiado desde `public/img`),
+# muévelo dentro de `static/img` para que el mount `/static` entregue /static/img/...
+RUN cd frontend \
+    && PUBLIC_URL=/static npm run build --silent \
     && rm -rf ../backend/app/static || true \
-    && mv build ../backend/app/static
+    && mv build ../backend/app/static \
+    && if [ -d ../backend/app/static/img ]; then mkdir -p ../backend/app/static/static/img && mv ../backend/app/static/img/* ../backend/app/static/static/img/ || true; fi
 
 # Copia entrypoint
 COPY scripts/entrypoint.sh /entrypoint.sh
