@@ -27,7 +27,7 @@ COPY . .
 # además, si el build tiene un `img` a nivel superior (copiado desde `public/img`),
 # muévelo dentro de `static/img` para que el mount `/static` entregue /static/img/...
 RUN cd frontend \
-    && PUBLIC_URL=/static npm run build --silent \
+    && npm run build --silent \
     && rm -rf ../backend/app/static || true \
     && mv build ../backend/app/static \
     && if [ -d ../backend/app/static/img ]; then mkdir -p ../backend/app/static/static/img && mv ../backend/app/static/img/* ../backend/app/static/static/img/ || true; fi
