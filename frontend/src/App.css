@@ -196,12 +196,13 @@ button {
 
 /* ===== PANEL DE RESULTADOS (estética similar a la captura) ===== */
 .results-panel {
-  width: 80%;
+  width: 100%;
+  max-width: 980px;
   margin: 20px auto;
   background: #fff;
   border-radius: 14px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-  padding: 18px;
+  padding: 22px;
 }
 
 .tabs {
@@ -405,6 +406,60 @@ button {
   align-items: center;
   margin-top: 1rem;
   gap: 1rem;
+}
+/* PAGINACIÓN COMPACTA */
+.paginacion {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.pagin-boton {
+  background: #007b8b;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pagin-boton[disabled] {
+  background: #c9e6e8;
+  color: #7aa9ad;
+  cursor: not-allowed;
+}
+
+.paginacion-numeros {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.pagin-num {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: #f0f4f5;
+  color: #086679;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pagin-num.current {
+  background: #007b8b;
+  color: white;
+  box-shadow: 0 6px 14px rgba(0,123,139,0.18);
+}
+
+.pagin-ellipsis {
+  color: #9fbfc1;
+  font-weight: 700;
+  padding: 0 6px;
 }
 
   .paginacion-numeros {

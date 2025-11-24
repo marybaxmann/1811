@@ -71,6 +71,56 @@ function Opciones() {
     setPaginaNoAcc(1);
   }, [filtros]);
 
+  // Paginador compacto: devuelve elementos para renderizar
+  const renderPagination = (current, total, onPage) => {
+    if (total <= 1) return null;
+
+    const pages = [];
+    let start = Math.max(1, current - 2);
+    let end = Math.min(total, start + 4);
+    if (end - start < 4) start = Math.max(1, end - 4);
+
+    if (start > 1) {
+      pages.push(1);
+      if (start > 2) pages.push("...");
+    }
+
+    for (let i = start; i <= end; i++) pages.push(i);
+
+    if (end < total) {
+      if (end < total - 1) pages.push("...");
+      pages.push(total);
+    }
+
+    return (
+      <div className="paginacion" aria-label="Paginación">
+        <button onClick={() => onPage(Math.max(1, current - 1))} disabled={current === 1} className="pagin-boton">
+          « Anterior
+        </button>
+
+        <div className="paginacion-numeros">
+          {pages.map((p, idx) =>
+            p === "..." ? (
+              <span key={`e-${idx}`} className="pagin-ellipsis">...</span>
+            ) : (
+              <button
+                key={p}
+                className={`pagin-num ${current === p ? "current" : ""}`}
+                onClick={() => onPage(p)}
+              >
+                {p}
+              </button>
+            )
+          )}
+        </div>
+
+        <button onClick={() => onPage(Math.min(total, current + 1))} disabled={current === total} className="pagin-boton">
+          Siguiente »
+        </button>
+      </div>
+    );
+  };
+
   return (
     <div className="opciones-wrapper">
       <h1>Opciones Universitarias</h1>
@@ -166,17 +216,7 @@ function Opciones() {
               )}
 
               {totalPagAcc > 1 && (
-                <div className="paginacion-numeros">
-                  {Array.from({ length: totalPagAcc }).map((_, idx) => (
-                    <button
-                      key={idx}
-                      className={`pagin-num ${paginaAcc === idx + 1 ? "current" : ""}`}
-                      onClick={() => setPaginaAcc(idx + 1)}
-                    >
-                      {idx + 1}
-                    </button>
-                  ))}
-                </div>
+                renderPagination(paginaAcc, totalPagAcc, setPaginaAcc)
               )}
             </>
           )}
@@ -202,17 +242,7 @@ function Opciones() {
               )}
 
               {totalPagNoAcc > 1 && (
-                <div className="paginacion-numeros">
-                  {Array.from({ length: totalPagNoAcc }).map((_, idx) => (
-                    <button
-                      key={idx}
-                      className={`pagin-num ${paginaNoAcc === idx + 1 ? "current" : ""}`}
-                      onClick={() => setPaginaNoAcc(idx + 1)}
-                    >
-                      {idx + 1}
-                    </button>
-                  ))}
-                </div>
+                renderPagination(paginaNoAcc, totalPagNoAcc, setPaginaNoAcc)
               )}
             </>
           )}
