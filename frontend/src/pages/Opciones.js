@@ -45,7 +45,7 @@ function Opciones() {
 
   const cerrarModal = () => setModalAbierto(false);
 
-  const shorten = (text, max = 40) =>
+  const shorten = (text, max = 30) =>
     text && text.length > max ? text.slice(0, max) + "..." : text || "";
 
   // Aplicar filtros
@@ -77,8 +77,7 @@ function Opciones() {
 
     const pages = [];
     let start = Math.max(1, current - 2);
-    let end = Math.min(total, start + 4);
-    if (end - start < 4) start = Math.max(1, end - 4);
+    let end = Math.min(total);
 
     if (start > 1) {
       pages.push(1);
