@@ -31,7 +31,7 @@ function Inicio() {
 
         <div className="cards-container">
           <div className="card">
-            <img src="/img/estudiantes1.jpg" alt="Estudiantes 1" />
+            <img src={process.env.PUBLIC_URL + '/img/estudiantes1.jpg'} alt="Estudiantes 1" />
             <p>
               El <strong>77.3%</strong> de los estudiantes de pregrado 
               permanecen en sus carreras tras el primer año.
@@ -39,7 +39,7 @@ function Inicio() {
           </div>
 
           <div className="card">
-            <img src="/img/estudiantes2.jpg" alt="Estudiantes 2" />
+            <img src={process.env.PUBLIC_URL + '/img/estudiantes2.jpg'} alt="Estudiantes 2" />
             <p>
               El sistema de Educación Superior en Chile aumentó 
               sus matrículas en <strong>5%</strong> en 2025.
@@ -47,7 +47,7 @@ function Inicio() {
           </div>
 
           <div className="card">
-            <img src="/img/estudiantes3.jpg" alt="Estudiantes 3" />
+            <img src={process.env.PUBLIC_URL + '/img/estudiantes3.jpg'} alt="Estudiantes 3" />
             <p>
               Más de <strong>250.000</strong> jóvenes postulan cada año 
               a través del sistema PAES.
