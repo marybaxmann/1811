@@ -2,7 +2,7 @@
 body {
   margin: 0;
   font-family: "Noto Sans", Arial, sans-serif;
-  background-color: #d8eff4;
+  background-color: #e3f4f8;
   color: #086679;
 }
 
@@ -193,6 +193,43 @@ button {
   position: relative;
 }
 
+/* ===== PANEL DE RESULTADOS (estética similar a la captura) ===== */
+.results-panel {
+  width: 80%;
+  margin: 20px auto;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  padding: 18px;
+}
+
+.tabs {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start;
+  padding: 8px 6px 14px 6px;
+}
+
+.tab {
+  background: #e9f6f7;
+  color: #086679;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: #007b8b;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0,123,139,0.18);
+}
+
+.results-list {
+  padding-top: 8px;
+}
+
 .fila-filtros {
   display: flex;
   justify-content: space-between;
@@ -239,13 +276,13 @@ button {
 
 /* ==== TARJETAS DE RESULTADOS (CLICKABLE) ==== */
 .resultado-card {
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 15px;
-  margin: 10px 0;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin: 12px 0;
+  box-shadow: 0 6px 14px rgba(15,105,140,0.06);
 
-  cursor: pointer;              /* 👈 Ahora aparece la manito */
+  cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -256,13 +293,28 @@ button {
 
 
 .resultado-card h4 {
-  margin: 0;
-  color: #156677;
+  margin: 0 0 6px 0;
+  color: #073f4a;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+.resultado-card p {
+  margin: 3px 0;
+  font-size: 14px;
 }
 
-.resultado-card p {
-  margin: 5px 0;
-  font-size: 14px;
+.resultado-card .subtitulo {
+  color: #2b6b73;
+  font-size: 0.95rem;
+}
+
+.resultado-card .meta {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-start;
+  margin-top: 10px;
+  color: #2b6b73;
+  font-size: 0.95rem;
 }
 
 .margen.positivo {
@@ -325,6 +377,30 @@ button {
   margin-top: 1rem;
   gap: 1rem;
 }
+
+  .paginacion-numeros {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .pagin-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: #f0f4f5;
+    color: #086679;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .pagin-num.current {
+    background: #007b8b;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0,123,139,0.18);
+  }
 
 .paginacion button {
   background-color: #086679;

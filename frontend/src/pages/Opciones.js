@@ -11,6 +11,7 @@ function Opciones() {
 
   const [paginaAccesibles, setPaginaAccesibles] = useState(1);
   const [paginaNoAccesibles, setPaginaNoAccesibles] = useState(1);
+  const [activeTab, setActiveTab] = useState("accesibles");
   const porPagina = 10;
 
   // ============================================================
@@ -184,88 +185,88 @@ function Opciones() {
             <p>No hay carreras accesibles.</p>
           ) : (
             visiblesAccesibles.map((c, i) => (
-              <div
-                key={i}
-                className="resultado-card"
-                onClick={() => abrirModal(c)}
-              >
-                <h4>{c.carrera}</h4>
-                <p>
-                  <strong>{c.universidad}</strong> — {c.area}
-                </p>
-                <p>
-                  Corte: {c.puntaje_corte} pts | Tú: {c.puntaje_ponderado} pts |{" "}
-                  <span className="margen positivo">
-                    +{c.margen.toFixed(1)} pts
-                  </span>
-                </p>
+              <div className="results-panel">
+                <div className="tabs">
+                  <button
+                    className={`tab ${activeTab === "accesibles" ? "active" : ""}`}
+                    onClick={() => setActiveTab("accesibles")}
+                  >
+                    ✅ Carreras accesibles ({accesibles.length})
+                  </button>
+                  <button
+                    className={`tab ${activeTab === "no-accesibles" ? "active" : ""}`}
+                    onClick={() => setActiveTab("no-accesibles")}
+                  >
+                    Carreras no accesibles ({noAccesibles.length})
+                  </button>
+                </div>
+
+                <div className="results-list">
+                  {activeTab === "accesibles" && (
+                    <>
+                      {visiblesAccesibles.length === 0 ? (
+                        <p>No hay carreras accesibles.</p>
+                      ) : (
+                        visiblesAccesibles.map((c, i) => (
+                          <div key={i} className="resultado-card" onClick={() => abrirModal(c)}>
+                            <h4>{c.carrera}</h4>
+                            <p className="subtitulo"><strong>{c.universidad}</strong> — {c.area}</p>
+                            <div className="meta">
+                              <span>Corte: <strong>{c.puntaje_corte}</strong> pts</span>
+                              <span>Tú: <strong>{c.puntaje_ponderado}</strong> pts</span>
+                              <span className="margen positivo">+{c.margen.toFixed(1)} pts</span>
+                            </div>
+                          </div>
+                        ))
+                      )}
+
+                      {totalPagAcc > 1 && (
+                        <div className="paginacion-numeros">
+                          {Array.from({ length: totalPagAcc }).map((_, idx) => (
+                            <button
+                              key={idx}
+                              className={`pagin-num ${paginaAccesibles === idx + 1 ? "current" : ""}`}
+                              onClick={() => setPaginaAccesibles(idx + 1)}
+                            >{idx + 1}</button>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  )}
+
+                  {activeTab === "no-accesibles" && (
+                    <>
+                      {visiblesNoAccesibles.length === 0 ? (
+                        <p>No hay carreras no accesibles.</p>
+                      ) : (
+                        visiblesNoAccesibles.map((c, i) => (
+                          <div key={i} className="resultado-card" onClick={() => abrirModal(c)}>
+                            <h4>{c.carrera}</h4>
+                            <p className="subtitulo"><strong>{c.universidad}</strong> — {c.area}</p>
+                            <div className="meta">
+                              <span>Corte: <strong>{c.puntaje_corte}</strong> pts</span>
+                              <span>Tú: <strong>{c.puntaje_ponderado}</strong> pts</span>
+                              <span className="margen negativo">{c.margen.toFixed(1)} pts</span>
+                            </div>
+                          </div>
+                        ))
+                      )}
+
+                      {totalPagNoAcc > 1 && (
+                        <div className="paginacion-numeros">
+                          {Array.from({ length: totalPagNoAcc }).map((_, idx) => (
+                            <button
+                              key={idx}
+                              className={`pagin-num ${paginaNoAccesibles === idx + 1 ? "current" : ""}`}
+                              onClick={() => setPaginaNoAccesibles(idx + 1)}
+                            >{idx + 1}</button>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
-            ))
-          )}
-
-          {totalPagAcc > 1 && (
-            <div className="paginacion">
-              <button
-                onClick={() => setPaginaAccesibles((p) => Math.max(p - 1, 1))}
-                disabled={paginaAccesibles === 1}
-              >
-                ← Anterior
-              </button>
-
-              <span>
-                Página {paginaAccesibles} de {totalPagAcc}
-              </span>
-
-              <button
-                onClick={() => setPaginaAccesibles((p) => Math.min(p + 1, totalPagAcc))}
-                disabled={paginaAccesibles === totalPagAcc}
-              >
-                Siguiente →
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* ================= NO ACCESIBLES ================= */}
-        <div className="bloque no-accesibles">
-          <h3>❌ Carreras no accesibles ({noAccesibles.length})</h3>
-
-          {visiblesNoAccesibles.length === 0 ? (
-            <p>No hay carreras no accesibles.</p>
-          ) : (
-            visiblesNoAccesibles.map((c, i) => (
-              <div
-                key={i}
-                className="resultado-card"
-                onClick={() => abrirModal(c)}
-              >
-                <h4>{c.carrera}</h4>
-                <p>
-                  <strong>{c.universidad}</strong> — {c.area}
-                </p>
-                <p>
-                  Corte: {c.puntaje_corte} pts | Tú: {c.puntaje_ponderado} pts |{" "}
-                  <span className="margen negativo">{c.margen.toFixed(1)} pts</span>
-                </p>
-              </div>
-            ))
-          )}
-
-          {totalPagNoAcc > 1 && (
-            <div className="paginacion">
-              <button
-                onClick={() => setPaginaNoAccesibles((p) => Math.max(p - 1, 1))}
-                disabled={paginaNoAccesibles === 1}
-              >
-                ← Anterior
-              </button>
-              <span>
-                Página {paginaNoAccesibles} de {totalPagNoAcc}
-              </span>
-              <button
-                onClick={() =>
-                  setPaginaNoAccesibles((p) => Math.min(p + 1, totalPagNoAcc))
-                }
                 disabled={paginaNoAccesibles === totalPagNoAcc}
               >
                 Siguiente →
