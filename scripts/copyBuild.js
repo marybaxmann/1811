@@ -50,7 +50,18 @@ function copyRecursive(src, dest) {
 
     console.log('Copying frontend build from', buildDir, 'to', targetStatic);
     copyRecursive(buildDir, targetStatic);
-
+    // Some CRA builds place public images in build/img (top-level).
+    // Our FastAPI mounts the `static` subfolder at `/static`, so ensure
+    // images are also available under `static/img` by copying them there
+    // if they exist at the top-level `targetStatic/img`.
+    const topLevelImg = path.join(targetStatic, 'img');
+    const staticImgDest = path.join(targetStatic, 'static', 'img');
+    if (fs.existsSync(topLevelImg) && !fs.existsSync(staticImgDest)) {
+      console.log('Copying top-level images into', staticImgDest);
+      // Ensure parent exists
+      fs.mkdirSync(path.join(targetStatic, 'static'), { recursive: true });
+      copyRecursive(topLevelImg, staticImgDest);
+    }
     console.log('Done copying frontend build to backend static folder.');
   } catch (err) {
     console.error('Error copying build:', err);
