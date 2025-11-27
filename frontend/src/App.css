@@ -818,6 +818,7 @@ select option {
   font-weight: 700; /* match Opciones title weight */
   margin-bottom: 30px;
   letter-spacing: 1px;
+  text-transform: none; /* ensure it displays as written (e.g. "Mis Favoritos") */
 }
 
 .bienvenida-card {
