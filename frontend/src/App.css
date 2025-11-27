@@ -67,17 +67,18 @@ p {
 }
 
 /* Botón de favoritos en la navegación */
+.nav-favorites {
+  display: flex;
+  align-items: center;
+}
 .nav-favorites a {
-  background: #008b94;
   color: white;
-  padding: 8px 14px;
-  border-radius: 12px;
-  display: inline-block;
-  font-weight: 800;
+  font-weight: 600;
   text-decoration: none;
+  padding: 0 6px;
 }
 .nav-favorites a:hover {
-  background: #006f77;
+  color: #bfd4d6;
 }
 
 /* ==== CONTENEDORES ==== */

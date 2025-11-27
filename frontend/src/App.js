@@ -22,6 +22,40 @@ function App() {
     }
   }, []);
 
+  // Escuchar eventos personalizados para mantener el contador actualizado
+  useEffect(() => {
+    const onFavoritosUpdated = (e) => {
+      if (e && e.detail !== undefined) setFavoritosCount(e.detail);
+      else {
+        const favLocal = localStorage.getItem("usuarioFavoritos");
+        if (favLocal) {
+          try {
+            const f = JSON.parse(favLocal);
+            setFavoritosCount(Array.isArray(f) ? f.length : 0);
+          } catch (err) {}
+        } else setFavoritosCount(0);
+      }
+    };
+
+    const onUserRegistered = () => setUsuarioRegistrado(true);
+
+    window.addEventListener("favoritosUpdated", onFavoritosUpdated);
+    window.addEventListener("userRegistered", onUserRegistered);
+
+    // también escuchar storage por si cambia en otra pestaña
+    const onStorage = (ev) => {
+      if (ev.key === "usuarioFavoritos") onFavoritosUpdated();
+      if (ev.key === "usuarioRegistrado") onUserRegistered();
+    };
+    window.addEventListener("storage", onStorage);
+
+    return () => {
+      window.removeEventListener("favoritosUpdated", onFavoritosUpdated);
+      window.removeEventListener("userRegistered", onUserRegistered);
+      window.removeEventListener("storage", onStorage);
+    };
+  }, []);
+
   return (
     <Router>
       <header className="navbar">

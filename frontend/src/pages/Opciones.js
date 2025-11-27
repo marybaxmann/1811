@@ -76,6 +76,14 @@ function Opciones() {
     localStorage.setItem("usuarioFavoritos", JSON.stringify(nuevosFavoritos));
   };
 
+  // Notificar a la app que los favoritos cambiaron
+  const notificarFavoritos = (nuevosFavoritos) => {
+    try {
+      const count = Array.isArray(nuevosFavoritos) ? nuevosFavoritos.length : 0;
+      window.dispatchEvent(new CustomEvent("favoritosUpdated", { detail: count }));
+    } catch (e) {}
+  };
+
   // Alternar favorito
   const toggleFavorito = (carrera) => {
     if (!usuarioRegistrado) {
@@ -88,8 +96,11 @@ function Opciones() {
     if (esFavorito) {
       const nuevosFavoritos = favoritos.filter(f => !(f.carrera === carrera.carrera && f.universidad === carrera.universidad));
       guardarFavoritos(nuevosFavoritos);
+      notificarFavoritos(nuevosFavoritos);
     } else {
-      guardarFavoritos([...favoritos, carrera]);
+      const nuevos = [...favoritos, carrera];
+      guardarFavoritos(nuevos);
+      notificarFavoritos(nuevos);
     }
   };
 
@@ -99,6 +110,8 @@ function Opciones() {
       setUsuarioRegistrado(true);
       localStorage.setItem("usuarioRegistrado", JSON.stringify(usuario));
       setMostrarModalRegistro(false);
+      // Notificar a la app que el usuario se registró (para mostrar enlace en navbar)
+      window.dispatchEvent(new Event("userRegistered"));
     } else {
       alert("Por favor completa todos los campos");
     }
