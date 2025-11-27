@@ -17,6 +17,13 @@ function Opciones() {
   const [modalAbierto, setModalAbierto] = useState(false);
   const [carreraSeleccionada, setCarreraSeleccionada] = useState(null);
 
+  // ===== NUEVOS ESTADOS PARA FAVORITOS =====
+  const [favoritos, setFavoritos] = useState([]);
+  const [mostrarModalRegistro, setMostrarModalRegistro] = useState(false);
+  const [usuario, setUsuario] = useState({ nombre: "", apellido: "", edad: "" });
+  const [usuarioRegistrado, setUsuarioRegistrado] = useState(false);
+  const [mostrarFavoritos, setMostrarFavoritos] = useState(false);
+
   // Cargar resultados guardados
   useEffect(() => {
     const local = localStorage.getItem("resultadosSimulacion");
@@ -29,6 +36,69 @@ function Opciones() {
       }
     }
   }, []);
+
+  // Cargar favoritos y usuario desde localStorage
+  useEffect(() => {
+    const favLocal = localStorage.getItem("usuarioFavoritos");
+    const userLocal = localStorage.getItem("usuarioRegistrado");
+    
+    if (favLocal) {
+      try {
+        setFavoritos(JSON.parse(favLocal));
+      } catch (e) {
+        console.error("Error cargando favoritos:", e);
+      }
+    }
+    
+    if (userLocal) {
+      try {
+        const userData = JSON.parse(userLocal);
+        setUsuario(userData);
+        setUsuarioRegistrado(true);
+      } catch (e) {
+        console.error("Error cargando usuario:", e);
+      }
+    }
+  }, []);
+
+  // Guardar favoritos en localStorage
+  const guardarFavoritos = (nuevosFavoritos) => {
+    setFavoritos(nuevosFavoritos);
+    localStorage.setItem("usuarioFavoritos", JSON.stringify(nuevosFavoritos));
+  };
+
+  // Alternar favorito
+  const toggleFavorito = (carrera) => {
+    if (!usuarioRegistrado) {
+      setMostrarModalRegistro(true);
+      return;
+    }
+
+    const esFavorito = favoritos.some(f => f.carrera === carrera.carrera && f.universidad === carrera.universidad);
+    
+    if (esFavorito) {
+      const nuevosFavoritos = favoritos.filter(f => !(f.carrera === carrera.carrera && f.universidad === carrera.universidad));
+      guardarFavoritos(nuevosFavoritos);
+    } else {
+      guardarFavoritos([...favoritos, carrera]);
+    }
+  };
+
+  // Registrar usuario
+  const registrarUsuario = () => {
+    if (usuario.nombre.trim() && usuario.apellido.trim() && usuario.edad.trim()) {
+      setUsuarioRegistrado(true);
+      localStorage.setItem("usuarioRegistrado", JSON.stringify(usuario));
+      setMostrarModalRegistro(false);
+    } else {
+      alert("Por favor completa todos los campos");
+    }
+  };
+
+  // Verificar si carrera es favorita
+  const esFavorito = (carrera) => {
+    return favoritos.some(f => f.carrera === carrera.carrera && f.universidad === carrera.universidad);
+  };
 
   // Cargar áreas desde API
   useEffect(() => {
@@ -129,7 +199,17 @@ function Opciones() {
 
   return (
     <div className="opciones-wrapper">
-      <h1>Opciones Universitarias</h1>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "20px", marginBottom: "20px" }}>
+        <h1>Opciones Universitarias</h1>
+        {usuarioRegistrado && (
+          <button 
+            className="boton-favoritos"
+            onClick={() => setMostrarFavoritos(!mostrarFavoritos)}
+          >
+            ⭐ Mis Favoritos ({favoritos.length})
+          </button>
+        )}
+      </div>
 
       {/* FILTROS */}
       {mostrarFiltros && (
@@ -181,23 +261,62 @@ function Opciones() {
       )}
 
       {/* PANEL DE RESULTADOS (VENTANA + TABS) */}
-      <div className="tabs-container">
-
-        <div className="tabs">
-          <button
-              className={`tab accesible ${activeTab === "accesibles" ? "active" : ""}`}
-            onClick={() => setActiveTab("accesibles")}
+      {mostrarFavoritos ? (
+        <div className="favoritos-container">
+          <h2>Bienvenida {usuario.nombre} {usuario.apellido}</h2>
+          <p style={{ fontSize: "16px", marginTop: "10px" }}>Aquí tienes tus carreras favoritas:</p>
+          
+          {favoritos.length === 0 ? (
+            <p style={{ textAlign: "center", marginTop: "30px" }}>No tienes carreras favoritas aún</p>
+          ) : (
+            <div style={{ marginTop: "20px" }}>
+              {favoritos.map((c, i) => (
+                <div key={i} className="resultado-card">
+                  <h4>{c.carrera}</h4>
+                  <p className="subtitulo"><strong>{c.universidad}</strong> — {c.area}</p>
+                  <div className="meta">
+                    <span>Corte: <strong>{c.puntaje_corte}</strong> pts</span>
+                    <span>Tú: <strong>{c.puntaje_ponderado}</strong> pts</span>
+                    <span className={`margen ${c.margen >= 0 ? "positivo" : "negativo"}`}>
+                      {c.margen >= 0 ? `+${c.margen.toFixed(1)}` : c.margen.toFixed(1)} pts
+                    </span>
+                  </div>
+                  <button 
+                    onClick={() => toggleFavorito(c)}
+                    style={{ marginTop: "10px", background: "#ff6b6b", color: "white", border: "none", padding: "6px 12px", borderRadius: "4px", cursor: "pointer" }}
+                  >
+                    ✕ Quitar de favoritos
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+          
+          <button 
+            onClick={() => setMostrarFavoritos(false)}
+            style={{ marginTop: "20px", display: "block", margin: "20px auto 0" }}
+            className="boton-filtros-mostrar"
           >
-            ✅ Carreras accesibles ({accesibles.length})
-          </button>
-
-        <button
-              className={`tab no-accesible ${activeTab === "no-accesibles" ? "active" : ""}`}
-            onClick={() => setActiveTab("no-accesibles")}
-          >
-            ❌ Carreras no accesibles ({noAccesibles.length})
+            Volver a opciones
           </button>
         </div>
+      ) : (
+        <div className="tabs-container">
+          <div className="tabs">
+            <button
+                className={`tab accesible ${activeTab === "accesibles" ? "active" : ""}`}
+              onClick={() => setActiveTab("accesibles")}
+            >
+              ✅ Carreras accesibles ({accesibles.length})
+            </button>
+
+          <button
+                className={`tab no-accesible ${activeTab === "no-accesibles" ? "active" : ""}`}
+              onClick={() => setActiveTab("no-accesibles")}
+            >
+              ❌ Carreras no accesibles ({noAccesibles.length})
+            </button>
+          </div>
 
         {/* CONTENIDO DE LA VENTANA */}
         <div className="tab-content">
@@ -208,15 +327,27 @@ function Opciones() {
                 <p>No hay carreras accesibles.</p>
               ) : (
                 visiblesAcc.map((c, i) => (
-                  <div key={i} className="resultado-card" onClick={() => abrirModal(c)}>
-                    <h4>{c.carrera}</h4>
-                    <p className="subtitulo"><strong>{c.universidad}</strong> — {c.area}</p>
+                  <div key={i} className="resultado-card-wrapper">
+                    <div className="resultado-card" onClick={() => abrirModal(c)}>
+                      <h4>{c.carrera}</h4>
+                      <p className="subtitulo"><strong>{c.universidad}</strong> — {c.area}</p>
 
-                    <div className="meta">
-                      <span>Corte: <strong>{c.puntaje_corte}</strong> pts</span>
-                      <span>Tú: <strong>{c.puntaje_ponderado}</strong> pts</span>
-                      <span className="margen positivo">+{c.margen.toFixed(1)} pts</span>
+                      <div className="meta">
+                        <span>Corte: <strong>{c.puntaje_corte}</strong> pts</span>
+                        <span>Tú: <strong>{c.puntaje_ponderado}</strong> pts</span>
+                        <span className="margen positivo">+{c.margen.toFixed(1)} pts</span>
+                      </div>
                     </div>
+                    <button 
+                      className="btn-favorito"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleFavorito(c);
+                      }}
+                      title="Agregar a favoritos"
+                    >
+                      {esFavorito(c) ? "⭐" : "☆"}
+                    </button>
                   </div>
                 ))
               )}
@@ -234,26 +365,92 @@ function Opciones() {
                 <p>No hay carreras no accesibles.</p>
               ) : (
                 visiblesNoAcc.map((c, i) => (
-                  <div key={i} className="resultado-card" onClick={() => abrirModal(c)}>
-                    <h4>{c.carrera}</h4>
-                    <p className="subtitulo"><strong>{c.universidad}</strong> — {c.area}</p>
+                  <div key={i} className="resultado-card-wrapper">
+                    <div className="resultado-card" onClick={() => abrirModal(c)}>
+                      <h4>{c.carrera}</h4>
+                      <p className="subtitulo"><strong>{c.universidad}</strong> — {c.area}</p>
 
-                    <div className="meta">
-                      <span>Corte: <strong>{c.puntaje_corte}</strong> pts</span>
-                      <span>Tú: <strong>{c.puntaje_ponderado}</strong> pts</span>
-                      <span className="margen negativo">{c.margen.toFixed(1)} pts</span>
+                      <div className="meta">
+                        <span>Corte: <strong>{c.puntaje_corte}</strong> pts</span>
+                        <span>Tú: <strong>{c.puntaje_ponderado}</strong> pts</span>
+                        <span className="margen negativo">{c.margen.toFixed(1)} pts</span>
+                      </div>
                     </div>
+                    <button 
+                      className="btn-favorito"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleFavorito(c);
+                      }}
+                      title="Agregar a favoritos"
+                    >
+                      {esFavorito(c) ? "⭐" : "☆"}
+                    </button>
                   </div>
                 ))
               )}
-
+              
               {totalPagNoAcc > 1 && (
                 renderPagination(paginaNoAcc, totalPagNoAcc, setPaginaNoAcc)
               )}
             </>
           )}
         </div>
-      </div>
+        </div>
+      )}
+
+      {/* MODAL DE REGISTRO */}
+      {mostrarModalRegistro && (
+        <div className="modal-overlay" onClick={() => setMostrarModalRegistro(false)}>
+          <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
+            <h2>Registrarse para Favoritos</h2>
+            <p style={{ marginBottom: "20px" }}>Ingresa tus datos para acceder a tu lista de favoritos</p>
+            
+            <div className="modal-form">
+              <div className="campo">
+                <label>Nombre:</label>
+                <input
+                  type="text"
+                  value={usuario.nombre}
+                  onChange={(e) => setUsuario({ ...usuario, nombre: e.target.value })}
+                  placeholder="Tu nombre"
+                />
+              </div>
+
+              <div className="campo">
+                <label>Apellido:</label>
+                <input
+                  type="text"
+                  value={usuario.apellido}
+                  onChange={(e) => setUsuario({ ...usuario, apellido: e.target.value })}
+                  placeholder="Tu apellido"
+                />
+              </div>
+
+              <div className="campo">
+                <label>Edad:</label>
+                <input
+                  type="number"
+                  value={usuario.edad}
+                  onChange={(e) => setUsuario({ ...usuario, edad: e.target.value })}
+                  placeholder="Tu edad"
+                  min="1"
+                  max="120"
+                />
+              </div>
+            </div>
+
+            <div style={{ display: "flex", gap: "10px", marginTop: "20px", justifyContent: "center" }}>
+              <button onClick={registrarUsuario} className="boton-simular">
+                Registrarse
+              </button>
+              <button onClick={() => setMostrarModalRegistro(false)} style={{ background: "#999" }} className="boton-simular">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* MODAL DETALLES */}
       <DetallesCarreraModal
