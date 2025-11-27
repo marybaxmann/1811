@@ -815,7 +815,7 @@ select option {
 .favoritos-content h1 {
   color: #0f699c;
   font-size: 2.2rem;
-  font-weight: 900;
+  font-weight: 700; /* match Opciones title weight */
   margin-bottom: 30px;
   letter-spacing: 1px;
 }
