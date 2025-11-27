@@ -69,7 +69,7 @@ function App() {
               <li><Link to="/opciones">Opciones</Link></li>
               {usuarioRegistrado && (
                 <li>
-                  <Link to="/favoritos">⭐ Mis Favoritos ({favoritosCount})</Link>
+                  <Link to="/favoritos">Mis Favoritos ({favoritosCount})</Link>
                 </li>
               )}
             </ul>
