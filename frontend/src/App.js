@@ -11,10 +11,10 @@ function App() {
   const [favoritosCount, setFavoritosCount] = useState(0);
 
   useEffect(() => {
-    const userLocal = localStorage.getItem("usuarioRegistrado");
+    const userLocal = sessionStorage.getItem("usuarioRegistrado");
     setUsuarioRegistrado(!!userLocal);
 
-    const favLocal = localStorage.getItem("usuarioFavoritos");
+    const favLocal = sessionStorage.getItem("usuarioFavoritos");
     if (favLocal) {
       try {
         const f = JSON.parse(favLocal);
@@ -43,17 +43,9 @@ function App() {
     window.addEventListener("favoritosUpdated", onFavoritosUpdated);
     window.addEventListener("userRegistered", onUserRegistered);
 
-    // también escuchar storage por si cambia en otra pestaña
-    const onStorage = (ev) => {
-      if (ev.key === "usuarioFavoritos") onFavoritosUpdated();
-      if (ev.key === "usuarioRegistrado") onUserRegistered();
-    };
-    window.addEventListener("storage", onStorage);
-
     return () => {
       window.removeEventListener("favoritosUpdated", onFavoritosUpdated);
       window.removeEventListener("userRegistered", onUserRegistered);
-      window.removeEventListener("storage", onStorage);
     };
   }, []);
 

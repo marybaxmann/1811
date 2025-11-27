@@ -6,8 +6,8 @@ function Favoritos() {
   const [usuario, setUsuario] = useState({ nombre: "", apellido: "", edad: "" });
 
   useEffect(() => {
-    const favLocal = localStorage.getItem("usuarioFavoritos");
-    const userLocal = localStorage.getItem("usuarioRegistrado");
+    const favLocal = sessionStorage.getItem("usuarioFavoritos");
+    const userLocal = sessionStorage.getItem("usuarioRegistrado");
 
     if (favLocal) {
       try {
@@ -32,7 +32,7 @@ function Favoritos() {
       (f) => !(f.carrera === carrera.carrera && f.universidad === carrera.universidad)
     );
     setFavoritos(nuevosFavoritos);
-    localStorage.setItem("usuarioFavoritos", JSON.stringify(nuevosFavoritos));
+    sessionStorage.setItem("usuarioFavoritos", JSON.stringify(nuevosFavoritos));
     
     // Notificar a la app que los favoritos cambiaron
     try {
