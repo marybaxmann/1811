@@ -6,66 +6,49 @@ function Opciones() {
   const [resultados, setResultados] = useState([]);
   const [filtros, setFiltros] = useState({ carrera: "", universidad: "", area: "" });
   const [mostrarFiltros, setMostrarFiltros] = useState(true);
-
   const [listaAreas, setListaAreas] = useState([]);
 
-  const [paginaAccesibles, setPaginaAccesibles] = useState(1);
-  const [paginaNoAccesibles, setPaginaNoAccesibles] = useState(1);
-  const porPagina = 10;
+  const [activeTab, setActiveTab] = useState("accesibles");
 
-  // ============================================================
-  // 🔹 Modal de detalles
-  // ============================================================
+  const porPagina = 10;
+  const [paginaAcc, setPaginaAcc] = useState(1);
+  const [paginaNoAcc, setPaginaNoAcc] = useState(1);
+
   const [modalAbierto, setModalAbierto] = useState(false);
   const [carreraSeleccionada, setCarreraSeleccionada] = useState(null);
 
-  const abrirModal = (carrera) => {
-    setCarreraSeleccionada(carrera);
+  // Cargar resultados guardados
+  useEffect(() => {
+    const local = localStorage.getItem("resultadosSimulacion");
+    if (local) {
+      try {
+        const parsed = JSON.parse(local);
+        if (Array.isArray(parsed)) setResultados(parsed);
+      } catch (e) {
+        console.error("Error parseando resultados:", e);
+      }
+    }
+  }, []);
+
+  // Cargar áreas desde API
+  useEffect(() => {
+    fetch("/simulador/areas")
+      .then((r) => r.json())
+      .then((data) => Array.isArray(data) && setListaAreas(data))
+      .catch(() => {});
+  }, []);
+
+  const abrirModal = (c) => {
+    setCarreraSeleccionada(c);
     setModalAbierto(true);
   };
 
   const cerrarModal = () => setModalAbierto(false);
 
-  // ============================================================
-  // 🔹 Función para recortar textos largos
-  // ============================================================
-  const shorten = (text, max = 40) => {
-    if (!text) return "";
-    return text.length > max ? text.substring(0, max) + "..." : text;
-  };
+  const shorten = (text, max = 30) =>
+    text && text.length > max ? text.slice(0, max) + "..." : text || "";
 
-  // ============================================================
-  // Cargar resultados guardados
-  // ============================================================
-  useEffect(() => {
-    const local = localStorage.getItem("resultadosSimulacion");
-    if (local) {
-      try {
-        const parsedData = JSON.parse(local);
-        if (Array.isArray(parsedData)) {
-          setResultados(parsedData);
-        }
-      } catch (error) {
-        console.error("Error al parsear resultados:", error);
-      }
-    }
-  }, []);
-
-  // ============================================================
-  // Cargar ÁREAS desde backend
-  // ============================================================
-  useEffect(() => {
-    fetch("/simulador/areas")
-      .then((r) => r.json())
-      .then((data) => {
-        if (Array.isArray(data)) setListaAreas(data);
-      })
-      .catch((err) => console.error("Error cargando áreas:", err));
-  }, []);
-
-  // ============================================================
-  // Filtrar resultados
-  // ============================================================
+  // Aplicar filtros
   const carrerasFiltradas = resultados.filter((c) => {
     return (
       (!filtros.carrera || c.carrera === filtros.carrera) &&
@@ -77,22 +60,15 @@ function Opciones() {
   const accesibles = carrerasFiltradas.filter((c) => c.margen >= 0);
   const noAccesibles = carrerasFiltradas.filter((c) => c.margen < 0);
 
-  const totalPagAcc = Math.ceil(accesibles.length / porPagina);
-  const totalPagNoAcc = Math.ceil(noAccesibles.length / porPagina);
+  const totalPagAcc = Math.max(1, Math.ceil(accesibles.length / porPagina));
+  const totalPagNoAcc = Math.max(1, Math.ceil(noAccesibles.length / porPagina));
 
-  const visiblesAccesibles = accesibles.slice(
-    (paginaAccesibles - 1) * porPagina,
-    paginaAccesibles * porPagina
-  );
-
-  const visiblesNoAccesibles = noAccesibles.slice(
-    (paginaNoAccesibles - 1) * porPagina,
-    paginaNoAccesibles * porPagina
-  );
+  const visiblesAcc = accesibles.slice((paginaAcc - 1) * porPagina, paginaAcc * porPagina);
+  const visiblesNoAcc = noAccesibles.slice((paginaNoAcc - 1) * porPagina, paginaNoAcc * porPagina);
 
   useEffect(() => {
-    setPaginaAccesibles(1);
-    setPaginaNoAccesibles(1);
+    setPaginaAcc(1);
+    setPaginaNoAcc(1);
   }, [filtros]);
 
   // Paginador compacto: devuelve elementos para renderizar
@@ -155,64 +131,41 @@ function Opciones() {
     <div className="opciones-wrapper">
       <h1>Opciones Universitarias</h1>
 
+      {/* FILTROS */}
       {mostrarFiltros && (
         <div className="filtros-container">
           <div className="filtros-card">
-            <button
-              className="boton-filtros-ocultar"
-              onClick={() => setMostrarFiltros(false)}
-            >
+            <button className="boton-filtros-ocultar" onClick={() => setMostrarFiltros(false)}>
               Ocultar filtros
             </button>
 
             <div className="fila-filtros">
-              {/* ================== SELECT CARRERA ================== */}
               <div className="campo">
                 <label>Carrera:</label>
-                <select
-                  value={filtros.carrera}
-                  onChange={(e) => setFiltros({ ...filtros, carrera: e.target.value })}
-                >
+                <select value={filtros.carrera} onChange={(e) => setFiltros({ ...filtros, carrera: e.target.value })}>
                   <option value="">Todas las carreras</option>
-
                   {[...new Set(resultados.map((r) => r.carrera))].map((c) => (
-                    <option key={c} value={c}>
-                      {shorten(c, 40)}
-                    </option>
+                    <option key={c} value={c}>{shorten(c)}</option>
                   ))}
                 </select>
               </div>
 
-              {/* ================== SELECT UNIVERSIDAD ================== */}
               <div className="campo">
                 <label>Universidad:</label>
-                <select
-                  value={filtros.universidad}
-                  onChange={(e) =>
-                    setFiltros({ ...filtros, universidad: e.target.value })
-                  }
-                >
+                <select value={filtros.universidad} onChange={(e) => setFiltros({ ...filtros, universidad: e.target.value })}>
                   <option value="">Todas las universidades</option>
                   {[...new Set(resultados.map((r) => r.universidad))].map((u) => (
-                    <option key={u} value={u}>
-                      {u}
-                    </option>
+                    <option key={u} value={u}>{u}</option>
                   ))}
                 </select>
               </div>
 
-              {/* ================== SELECT ÁREA ================== */}
               <div className="campo">
                 <label>Área:</label>
-                <select
-                  value={filtros.area}
-                  onChange={(e) => setFiltros({ ...filtros, area: e.target.value })}
-                >
+                <select value={filtros.area} onChange={(e) => setFiltros({ ...filtros, area: e.target.value })}>
                   <option value="">Todas las áreas</option>
                   {listaAreas.map((a) => (
-                    <option key={a} value={a}>
-                      {a}
-                    </option>
+                    <option key={a} value={a}>{a}</option>
                   ))}
                 </select>
               </div>
@@ -227,77 +180,82 @@ function Opciones() {
         </button>
       )}
 
-      {/* ========================================================
-                  BLOQUES DE RESULTADOS
-      ======================================================== */}
-      <div className="bloques-opciones">
-        
-        {/* ================= ACCESIBLES ================= */}
-        <div className="bloque accesibles">
-          <h3>✅ Carreras accesibles ({accesibles.length})</h3>
+      {/* PANEL DE RESULTADOS (VENTANA + TABS) */}
+      <div className="tabs-container">
 
-          {visiblesAccesibles.length === 0 ? (
-            <p>No hay carreras accesibles.</p>
-          ) : (
-            visiblesAccesibles.map((c, i) => (
-              <div
-                key={i}
-                className="resultado-card"
-                onClick={() => abrirModal(c)}
-              >
-                <h4>{c.carrera}</h4>
-                <p>
-                  <strong>{c.universidad}</strong> — {c.area}
-                </p>
-                <p>
-                  Corte: {c.puntaje_corte} pts | Tú: {c.puntaje_ponderado} pts |{" "}
-                  <span className="margen positivo">
-                    +{c.margen.toFixed(1)} pts
-                  </span>
-                </p>
-              </div>
-            ))
-          )}
+        <div className="tabs">
+          <button
+              className={`tab accesible ${activeTab === "accesibles" ? "active" : ""}`}
+            onClick={() => setActiveTab("accesibles")}
+          >
+            ✅ Carreras accesibles ({accesibles.length})
+          </button>
 
-          {totalPagAcc > 1 && (
-            renderPagination(paginaAccesibles, totalPagAcc, setPaginaAccesibles)
-          )}
+        <button
+              className={`tab no-accesible ${activeTab === "no-accesibles" ? "active" : ""}`}
+            onClick={() => setActiveTab("no-accesibles")}
+          >
+            ❌ Carreras no accesibles ({noAccesibles.length})
+          </button>
         </div>
 
-        {/* ================= NO ACCESIBLES ================= */}
-        <div className="bloque no-accesibles">
-          <h3>❌ Carreras no accesibles ({noAccesibles.length})</h3>
+        {/* CONTENIDO DE LA VENTANA */}
+        <div className="tab-content">
+          {/* TAB ACCESIBLES */}
+          {activeTab === "accesibles" && (
+            <>
+              {visiblesAcc.length === 0 ? (
+                <p>No hay carreras accesibles.</p>
+              ) : (
+                visiblesAcc.map((c, i) => (
+                  <div key={i} className="resultado-card" onClick={() => abrirModal(c)}>
+                    <h4>{c.carrera}</h4>
+                    <p className="subtitulo"><strong>{c.universidad}</strong> — {c.area}</p>
 
-          {visiblesNoAccesibles.length === 0 ? (
-            <p>No hay carreras no accesibles.</p>
-          ) : (
-            visiblesNoAccesibles.map((c, i) => (
-              <div
-                key={i}
-                className="resultado-card"
-                onClick={() => abrirModal(c)}
-              >
-                <h4>{c.carrera}</h4>
-                <p>
-                  <strong>{c.universidad}</strong> — {c.area}
-                </p>
-                <p>
-                  Corte: {c.puntaje_corte} pts | Tú: {c.puntaje_ponderado} pts |{" "}
-                  <span className="margen negativo">{c.margen.toFixed(1)} pts</span>
-                </p>
-              </div>
-            ))
+                    <div className="meta">
+                      <span>Corte: <strong>{c.puntaje_corte}</strong> pts</span>
+                      <span>Tú: <strong>{c.puntaje_ponderado}</strong> pts</span>
+                      <span className="margen positivo">+{c.margen.toFixed(1)} pts</span>
+                    </div>
+                  </div>
+                ))
+              )}
+
+              {totalPagAcc > 1 && (
+                renderPagination(paginaAcc, totalPagAcc, setPaginaAcc)
+              )}
+            </>
           )}
 
-          {totalPagNoAcc > 1 && (
-            renderPagination(paginaNoAccesibles, totalPagNoAcc, setPaginaNoAccesibles)
+          {/* TAB NO ACCESIBLES */}
+          {activeTab === "no-accesibles" && (
+            <>
+              {visiblesNoAcc.length === 0 ? (
+                <p>No hay carreras no accesibles.</p>
+              ) : (
+                visiblesNoAcc.map((c, i) => (
+                  <div key={i} className="resultado-card" onClick={() => abrirModal(c)}>
+                    <h4>{c.carrera}</h4>
+                    <p className="subtitulo"><strong>{c.universidad}</strong> — {c.area}</p>
+
+                    <div className="meta">
+                      <span>Corte: <strong>{c.puntaje_corte}</strong> pts</span>
+                      <span>Tú: <strong>{c.puntaje_ponderado}</strong> pts</span>
+                      <span className="margen negativo">{c.margen.toFixed(1)} pts</span>
+                    </div>
+                  </div>
+                ))
+              )}
+
+              {totalPagNoAcc > 1 && (
+                renderPagination(paginaNoAcc, totalPagNoAcc, setPaginaNoAcc)
+              )}
+            </>
           )}
         </div>
       </div>
 
-      {/* ========================================================
-                  MODAL DETALLES
-      ======================================================== */}
+      {/* MODAL DETALLES */}
       <DetallesCarreraModal
         abierta={modalAbierto}
         onCerrar={cerrarModal}

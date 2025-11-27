@@ -201,14 +201,6 @@ function Simulador() {
           </div>
 
           <button
-            type="button"
-            className="boton-secundario"
-            onClick={usarValoresDefault}
-          >
-            No sé mi NEM/Ranking
-          </button>
-
-          <button
             type="submit"
             className="boton-simular"
             disabled={loading}
