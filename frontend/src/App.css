@@ -799,3 +799,66 @@ select option {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* ==== PÁGINA DE FAVORITOS ==== */
+.favoritos-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 20px;
+}
+
+.favoritos-content {
+  width: 100%;
+}
+
+.favoritos-content h1 {
+  color: #0f699c;
+  font-size: 2.2rem;
+  font-weight: 900;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+.bienvenida-card {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #007b8b;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.bienvenida-card h2 {
+  color: #0f699c;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.bienvenida-card p {
+  color: #086679;
+  font-size: 1.05rem;
+}
+
+.sin-favoritos {
+  background-color: #fff;
+  padding: 40px 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #007b8b;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.sin-favoritos p {
+  color: #086679;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.favoritos-list {
+  display: grid;
+  gap: 15px;
+  margin-top: 20px;
+}

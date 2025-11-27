@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import "../App.css";
 import DetallesCarreraModal from "../components/DetallesCarreraModal";
 
@@ -62,26 +61,10 @@ function Opciones() {
     }
   }, []);
 
-  // Leer estado pasado desde la navegación (si venimos desde el nav "Mis Favoritos")
-  const location = useLocation();
-  useEffect(() => {
-    if (location && location.state && location.state.mostrarFavoritos) {
-      setMostrarFavoritos(true);
-    }
-  }, [location]);
-
   // Guardar favoritos en localStorage
   const guardarFavoritos = (nuevosFavoritos) => {
     setFavoritos(nuevosFavoritos);
     localStorage.setItem("usuarioFavoritos", JSON.stringify(nuevosFavoritos));
-  };
-
-  // Notificar a la app que los favoritos cambiaron
-  const notificarFavoritos = (nuevosFavoritos) => {
-    try {
-      const count = Array.isArray(nuevosFavoritos) ? nuevosFavoritos.length : 0;
-      window.dispatchEvent(new CustomEvent("favoritosUpdated", { detail: count }));
-    } catch (e) {}
   };
 
   // Alternar favorito
@@ -96,11 +79,19 @@ function Opciones() {
     if (esFavorito) {
       const nuevosFavoritos = favoritos.filter(f => !(f.carrera === carrera.carrera && f.universidad === carrera.universidad));
       guardarFavoritos(nuevosFavoritos);
-      notificarFavoritos(nuevosFavoritos);
+      // Notificar a la app que los favoritos cambiaron
+      try {
+        const count = Array.isArray(nuevosFavoritos) ? nuevosFavoritos.length : 0;
+        window.dispatchEvent(new CustomEvent("favoritosUpdated", { detail: count }));
+      } catch (e) {}
     } else {
       const nuevos = [...favoritos, carrera];
       guardarFavoritos(nuevos);
-      notificarFavoritos(nuevos);
+      // Notificar a la app que los favoritos cambiaron
+      try {
+        const count = Array.isArray(nuevos) ? nuevos.length : 0;
+        window.dispatchEvent(new CustomEvent("favoritosUpdated", { detail: count }));
+      } catch (e) {}
     }
   };
 
@@ -275,47 +266,7 @@ function Opciones() {
       )}
 
       {/* PANEL DE RESULTADOS (VENTANA + TABS) */}
-      {mostrarFavoritos ? (
-        <div className="favoritos-container">
-          <h2>Bienvenida {usuario.nombre} {usuario.apellido}</h2>
-          <p style={{ fontSize: "16px", marginTop: "10px" }}>Aquí tienes tus carreras favoritas:</p>
-          
-          {favoritos.length === 0 ? (
-            <p style={{ textAlign: "center", marginTop: "30px" }}>No tienes ni una carrera agregadas a favoritos</p>
-          ) : (
-            <div style={{ marginTop: "20px" }}>
-              {favoritos.map((c, i) => (
-                <div key={i} className="resultado-card">
-                  <h4>{c.carrera}</h4>
-                  <p className="subtitulo"><strong>{c.universidad}</strong> — {c.area}</p>
-                  <div className="meta">
-                    <span>Corte: <strong>{c.puntaje_corte}</strong> pts</span>
-                    <span>Tú: <strong>{c.puntaje_ponderado}</strong> pts</span>
-                    <span className={`margen ${c.margen >= 0 ? "positivo" : "negativo"}`}>
-                      {c.margen >= 0 ? `+${c.margen.toFixed(1)}` : c.margen.toFixed(1)} pts
-                    </span>
-                  </div>
-                  <button 
-                    onClick={() => toggleFavorito(c)}
-                    style={{ marginTop: "10px", background: "#ff6b6b", color: "white", border: "none", padding: "6px 12px", borderRadius: "4px", cursor: "pointer" }}
-                  >
-                    ✕ Quitar de favoritos
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-          
-          <button 
-            onClick={() => setMostrarFavoritos(false)}
-            style={{ marginTop: "20px", display: "block", margin: "20px auto 0" }}
-            className="boton-filtros-mostrar"
-          >
-            Volver a opciones
-          </button>
-        </div>
-      ) : (
-        <div className="tabs-container">
+      <div className="tabs-container">
           <div className="tabs">
             <button
                 className={`tab accesible ${activeTab === "accesibles" ? "active" : ""}`}

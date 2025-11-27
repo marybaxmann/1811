@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Inicio from "./pages/Inicio";
 import Simulador from "./pages/Simulador";
 import Opciones from "./pages/Opciones";
+import Favoritos from "./pages/Favoritos";
 import "./App.css";
 
 function App() {
@@ -67,10 +68,8 @@ function App() {
               <li><Link to="/simulador">Simular</Link></li>
               <li><Link to="/opciones">Opciones</Link></li>
               {usuarioRegistrado && (
-                <li className="nav-favorites">
-                  <Link to="/opciones" state={{ mostrarFavoritos: true }}>
-                    ⭐ Mis Favoritos ({favoritosCount})
-                  </Link>
+                <li>
+                  <Link to="/favoritos">⭐ Mis Favoritos ({favoritosCount})</Link>
                 </li>
               )}
             </ul>
@@ -83,6 +82,7 @@ function App() {
           <Route path="/" element={<Inicio />} />
           <Route path="/simulador" element={<Simulador />} />
           <Route path="/opciones" element={<Opciones />} />
+          <Route path="/favoritos" element={<Favoritos />} />
         </Routes>
       </main>
 
