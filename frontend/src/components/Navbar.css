@@ -44,8 +44,9 @@
   margin-left: 20px;
   font-weight: 500;
   transition: color 0.3s;
-  display: inline-block; /* Ensure all links, including Mis Favoritos, align properly */
-  padding: 5px 0; /* Add consistent vertical spacing */
+  display: flex; /* Change to flex for better alignment */
+  align-items: center; /* Ensure vertical alignment */
+  padding: 0; /* Remove unnecessary vertical padding */
 }
 
 .navbar-links a:hover {
