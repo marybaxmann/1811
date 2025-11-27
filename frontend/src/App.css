@@ -334,9 +334,12 @@ button {
   padding: 18px 20px;
   margin: 12px 0;
   box-shadow: 0 6px 14px rgba(15,105,140,0.06);
-
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .resultado-card:hover {
@@ -345,28 +348,36 @@ button {
 }
 
 .resultado-card h4 {
-  margin: 0 0 6px 0;
+  margin: 0 0 8px 0;
   color: #073f4a;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 800;
+  width: 100%;
 }
+
 .resultado-card p {
-  margin: 3px 0;
+  margin: 4px 0;
   font-size: 14px;
+  width: 100%;
 }
 
 .resultado-card .subtitulo {
   color: #2b6b73;
   font-size: 0.95rem;
+  margin-bottom: 12px;
+  width: 100%;
 }
 
 .resultado-card .meta {
   display: flex;
-  gap: 16px;
-  justify-content: flex-start;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
   margin-top: 10px;
   color: #2b6b73;
   font-size: 0.95rem;
+  width: 100%;
 }
 
 .margen.positivo {
