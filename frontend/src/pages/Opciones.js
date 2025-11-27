@@ -37,11 +37,11 @@ function Opciones() {
     }
   }, []);
 
-  // Cargar favoritos y usuario desde localStorage
+  // Cargar favoritos y usuario desde sessionStorage (persisten solo en la pestaña)
   useEffect(() => {
-    const favLocal = localStorage.getItem("usuarioFavoritos");
-    const userLocal = localStorage.getItem("usuarioRegistrado");
-    
+    const favLocal = sessionStorage.getItem("usuarioFavoritos");
+    const userLocal = sessionStorage.getItem("usuarioRegistrado");
+
     if (favLocal) {
       try {
         setFavoritos(JSON.parse(favLocal));
@@ -49,7 +49,7 @@ function Opciones() {
         console.error("Error cargando favoritos:", e);
       }
     }
-    
+
     if (userLocal) {
       try {
         const userData = JSON.parse(userLocal);
@@ -61,15 +61,10 @@ function Opciones() {
     }
   }, []);
 
-  // Eliminar registro de usuario al cargar la página
-  useEffect(() => {
-    localStorage.removeItem("usuarioRegistrado");
-  }, []);
-
   // Guardar favoritos en localStorage
   const guardarFavoritos = (nuevosFavoritos) => {
     setFavoritos(nuevosFavoritos);
-    localStorage.setItem("usuarioFavoritos", JSON.stringify(nuevosFavoritos));
+    sessionStorage.setItem("usuarioFavoritos", JSON.stringify(nuevosFavoritos));
   };
 
   // Alternar favorito
@@ -104,7 +99,7 @@ function Opciones() {
   const registrarUsuario = () => {
     if (usuario.nombre.trim() && usuario.apellido.trim() && usuario.edad.trim()) {
       setUsuarioRegistrado(true);
-      localStorage.setItem("usuarioRegistrado", JSON.stringify(usuario));
+      sessionStorage.setItem("usuarioRegistrado", JSON.stringify(usuario));
       setMostrarModalRegistro(false);
       // Notificar a la app que el usuario se registró (para mostrar enlace en navbar)
       window.dispatchEvent(new Event("userRegistered"));
