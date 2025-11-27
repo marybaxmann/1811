@@ -95,6 +95,62 @@ function Opciones() {
     setPaginaNoAccesibles(1);
   }, [filtros]);
 
+  // Paginador compacto: devuelve elementos para renderizar
+  const renderPagination = (current, total, onPage) => {
+    if (total <= 1) return null;
+
+    const pages = [];
+    const rangeSize = 2; // Mostrar 2 números a cada lado de la página actual
+
+    // Siempre mostrar página 1
+    if (current > 1) {
+      pages.push(1);
+      if (current > rangeSize + 2) pages.push("...");
+    }
+
+    // Mostrar rango alrededor de la página actual
+    const start = Math.max(2, current - rangeSize);
+    const end = Math.min(total - 1, current + rangeSize);
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    // Siempre mostrar última página
+    if (current < total) {
+      if (current < total - rangeSize - 1) pages.push("...");
+      pages.push(total);
+    }
+
+    return (
+      <div className="paginacion" aria-label="Paginación">
+        <button onClick={() => onPage(Math.max(1, current - 1))} disabled={current === 1} className="pagin-boton">
+          « Anterior
+        </button>
+
+        <div className="paginacion-numeros">
+          {pages.map((p, idx) =>
+            p === "..." ? (
+              <span key={`e-${idx}`} className="pagin-ellipsis">...</span>
+            ) : (
+              <button
+                key={p}
+                className={`pagin-num ${current === p ? "current" : ""}`}
+                onClick={() => onPage(p)}
+              >
+                {p}
+              </button>
+            )
+          )}
+        </div>
+
+        <button onClick={() => onPage(Math.min(total, current + 1))} disabled={current === total} className="pagin-boton">
+          Siguiente »
+        </button>
+      </div>
+    );
+  };
+
   return (
     <div className="opciones-wrapper">
       <h1>Opciones Universitarias</h1>
@@ -204,25 +260,7 @@ function Opciones() {
           )}
 
           {totalPagAcc > 1 && (
-            <div className="paginacion">
-              <button
-                onClick={() => setPaginaAccesibles((p) => Math.max(p - 1, 1))}
-                disabled={paginaAccesibles === 1}
-              >
-                ← Anterior
-              </button>
-
-              <span>
-                Página {paginaAccesibles} de {totalPagAcc}
-              </span>
-
-              <button
-                onClick={() => setPaginaAccesibles((p) => Math.min(p + 1, totalPagAcc))}
-                disabled={paginaAccesibles === totalPagAcc}
-              >
-                Siguiente →
-              </button>
-            </div>
+            renderPagination(paginaAccesibles, totalPagAcc, setPaginaAccesibles)
           )}
         </div>
 
@@ -252,25 +290,7 @@ function Opciones() {
           )}
 
           {totalPagNoAcc > 1 && (
-            <div className="paginacion">
-              <button
-                onClick={() => setPaginaNoAccesibles((p) => Math.max(p - 1, 1))}
-                disabled={paginaNoAccesibles === 1}
-              >
-                ← Anterior
-              </button>
-              <span>
-                Página {paginaNoAccesibles} de {totalPagNoAcc}
-              </span>
-              <button
-                onClick={() =>
-                  setPaginaNoAccesibles((p) => Math.min(p + 1, totalPagNoAcc))
-                }
-                disabled={paginaNoAccesibles === totalPagNoAcc}
-              >
-                Siguiente →
-              </button>
-            </div>
+            renderPagination(paginaNoAccesibles, totalPagNoAcc, setPaginaNoAccesibles)
           )}
         </div>
       </div>
