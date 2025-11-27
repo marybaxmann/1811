@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import "../App.css";
 import DetallesCarreraModal from "../components/DetallesCarreraModal";
 
@@ -60,6 +61,14 @@ function Opciones() {
       }
     }
   }, []);
+
+  // Leer estado pasado desde la navegación (si venimos desde el nav "Mis Favoritos")
+  const location = useLocation();
+  useEffect(() => {
+    if (location && location.state && location.state.mostrarFavoritos) {
+      setMostrarFavoritos(true);
+    }
+  }, [location]);
 
   // Guardar favoritos en localStorage
   const guardarFavoritos = (nuevosFavoritos) => {
@@ -201,14 +210,6 @@ function Opciones() {
     <div className="opciones-wrapper">
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "20px", marginBottom: "20px" }}>
         <h1>Opciones Universitarias</h1>
-        {usuarioRegistrado && (
-          <button 
-            className="boton-favoritos"
-            onClick={() => setMostrarFavoritos(!mostrarFavoritos)}
-          >
-            ⭐ Mis Favoritos ({favoritos.length})
-          </button>
-        )}
       </div>
 
       {/* FILTROS */}
@@ -267,7 +268,7 @@ function Opciones() {
           <p style={{ fontSize: "16px", marginTop: "10px" }}>Aquí tienes tus carreras favoritas:</p>
           
           {favoritos.length === 0 ? (
-            <p style={{ textAlign: "center", marginTop: "30px" }}>No tienes carreras favoritas aún</p>
+            <p style={{ textAlign: "center", marginTop: "30px" }}>No tienes ni una carrera agregadas a favoritos</p>
           ) : (
             <div style={{ marginTop: "20px" }}>
               {favoritos.map((c, i) => (

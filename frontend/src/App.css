@@ -66,6 +66,20 @@ p {
   color: #bfd4d6;
 }
 
+/* Botón de favoritos en la navegación */
+.nav-favorites a {
+  background: #008b94;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 12px;
+  display: inline-block;
+  font-weight: 800;
+  text-decoration: none;
+}
+.nav-favorites a:hover {
+  background: #006f77;
+}
+
 /* ==== CONTENEDORES ==== */
 .main-container {
   min-height: 80vh;

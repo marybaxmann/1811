@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Inicio from "./pages/Inicio";
 import Simulador from "./pages/Simulador";
@@ -5,6 +6,22 @@ import Opciones from "./pages/Opciones";
 import "./App.css";
 
 function App() {
+  const [usuarioRegistrado, setUsuarioRegistrado] = useState(false);
+  const [favoritosCount, setFavoritosCount] = useState(0);
+
+  useEffect(() => {
+    const userLocal = localStorage.getItem("usuarioRegistrado");
+    setUsuarioRegistrado(!!userLocal);
+
+    const favLocal = localStorage.getItem("usuarioFavoritos");
+    if (favLocal) {
+      try {
+        const f = JSON.parse(favLocal);
+        setFavoritosCount(Array.isArray(f) ? f.length : 0);
+      } catch (e) {}
+    }
+  }, []);
+
   return (
     <Router>
       <header className="navbar">
@@ -15,6 +32,13 @@ function App() {
               <li><Link to="/">Inicio</Link></li>
               <li><Link to="/simulador">Simular</Link></li>
               <li><Link to="/opciones">Opciones</Link></li>
+              {usuarioRegistrado && (
+                <li className="nav-favorites">
+                  <Link to="/opciones" state={{ mostrarFavoritos: true }}>
+                    ⭐ Mis Favoritos ({favoritosCount})
+                  </Link>
+                </li>
+              )}
             </ul>
           </nav>
         </div>
