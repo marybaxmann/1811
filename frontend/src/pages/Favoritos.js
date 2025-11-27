@@ -44,7 +44,7 @@ function Favoritos() {
   return (
     <div className="favoritos-wrapper">
       <div className="favoritos-content">
-        <h1>MIS FAVORITOS</h1>
+        <h1>Mis Favoritos</h1>
         <div className="bienvenida-card">
           <h2>
             Bienvenida {usuario.nombre} {usuario.apellido}
