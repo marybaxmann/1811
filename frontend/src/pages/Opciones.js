@@ -61,6 +61,11 @@ function Opciones() {
     }
   }, []);
 
+  // Eliminar registro de usuario al cargar la página
+  useEffect(() => {
+    localStorage.removeItem("usuarioRegistrado");
+  }, []);
+
   // Guardar favoritos en localStorage
   const guardarFavoritos = (nuevosFavoritos) => {
     setFavoritos(nuevosFavoritos);
@@ -354,7 +359,7 @@ function Opciones() {
                   </div>
                 ))
               )}
-              
+
               {totalPagNoAcc > 1 && (
                 renderPagination(paginaNoAcc, totalPagNoAcc, setPaginaNoAcc)
               )}
@@ -362,7 +367,6 @@ function Opciones() {
           )}
         </div>
         </div>
-      )}
 
       {/* MODAL DE REGISTRO */}
       {mostrarModalRegistro && (
