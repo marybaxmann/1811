@@ -1,0 +1,9 @@
+{
+  "name": "simuladorpaes-root",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Root package.json to satisfy platforms that run `npm start`.",
+  "scripts": {
+    "start": "sh -c \"cd backend && python -m uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8080}\""
+  }
+}

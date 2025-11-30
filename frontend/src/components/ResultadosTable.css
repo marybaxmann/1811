@@ -1,0 +1,195 @@
+.resultados-container {
+  background-color: #fdecec;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  color: #3c0a0a;
+}
+
+.resultados-container h2 {
+  text-align: center;
+  color: #6b0f0f;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.btn-filtros {
+  display: block;
+  margin: 10px auto;
+  background-color: #801515;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-filtros:hover {
+  background-color: #5e0f0f;
+}
+
+.filtros-container {
+  background-color: #fff4f4;
+  border: 1px solid #f1bcbc;
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 15px;
+}
+
+.filtros-container h3 {
+  color: #801515;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 15px;
+}
+
+.filtro-item {
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+}
+
+.filtro-item label {
+  font-weight: bold;
+  color: #801515;
+  margin-bottom: 5px;
+}
+
+.filtro-item select {
+  padding: 8px;
+  border: 1px solid #e2b8b8;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.contador-global {
+  text-align: center;
+  margin-top: 20px;
+  font-weight: 500;
+  color: #3c0a0a;
+}
+
+/* === NUEVAS SECCIONES === */
+.seccion-resultados {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.columna-accesibles,
+.columna-noaccesibles {
+  flex: 1 1 45%;
+  min-width: 380px;
+}
+
+.titulo-verde {
+  color: #155724;
+  background-color: #d4edda;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.titulo-rojo {
+  color: #a94442;
+  background-color: #f8d7da;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.tarjetas-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.tarjeta {
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 0.8rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.tarjeta:hover {
+  transform: scale(1.02);
+}
+
+/* Verde */
+.tarjeta.accesible {
+  border-left: 6px solid #28a745;
+  background-color: #e9f9ee;
+}
+
+/* Roja */
+.tarjeta.no-accesible {
+  border-left: 6px solid #dc3545;
+  background-color: #fff;
+}
+
+.detalle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.puntaje {
+  color: #155724;
+  font-weight: bold;
+}
+
+.puntaje-rojo {
+  color: #a94442;
+  font-weight: bold;
+}
+
+.puntaje-corte {
+  font-size: 14px;
+  color: #444;
+}
+
+.comparacion {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.comparacion.verde {
+  color: #155724;
+}
+
+.comparacion.rojo {
+  color: #a94442;
+}
+
+.universidad {
+  color: #004085;
+  font-weight: 500;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+@media (max-width: 900px) {
+  .seccion-resultados {
+    flex-direction: column;
+  }
+  .columna-accesibles,
+  .columna-noaccesibles {
+    min-width: 100%;
+  }
+}

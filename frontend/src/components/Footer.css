@@ -1,0 +1,31 @@
+.footer {
+  background-color: #7a1c1c;
+  color: white;
+  text-align: center;
+  padding: 30px 10px;
+  margin-top: 60px;
+}
+
+.footer-content {
+  width: 90%;
+  margin: 0 auto;
+  max-width: 900px;
+}
+
+.footer h3 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.footer p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 5px 0;
+}
+
+.footer-copy {
+  margin-top: 15px;
+  font-size: 0.85rem;
+  color: #f3dede;
+}
