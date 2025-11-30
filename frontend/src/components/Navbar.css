@@ -44,9 +44,12 @@
   margin-left: 20px;
   font-weight: 500;
   transition: color 0.3s;
+<<<<<<< HEAD
   display: flex; /* Change to flex for better alignment */
   align-items: center; /* Ensure vertical alignment */
   padding: 0; /* Remove unnecessary vertical padding */
+=======
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
 }
 
 .navbar-links a:hover {

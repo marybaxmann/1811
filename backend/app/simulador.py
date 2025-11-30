@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional, List
 from sqlalchemy import text
+<<<<<<< HEAD
 from app.db import get_db
 from sqlalchemy.orm import Session
 from app.mongo_client import db
@@ -11,6 +12,13 @@ from app.schemas import SimulacionRequest
 router = APIRouter(prefix="/simulador", tags=["simulador"])
 
 
+=======
+from app.db import get_db          # ← CORREGIDO
+from sqlalchemy.orm import Session
+
+router = APIRouter(prefix="/simulador", tags=["simulador"])
+
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
 # ============================================================
 # 📌 MODELO PARA OPCIONES
 # ============================================================
@@ -24,7 +32,10 @@ class OpcionPostulacion(BaseModel):
     margen: float
     ano: int
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
 # ============================================================
 # 📌 MODELO DETALLE CARRERA
 # ============================================================
@@ -50,7 +61,11 @@ class DetalleCarrera(BaseModel):
 
 
 # ============================================================
+<<<<<<< HEAD
 # 📌 ENDPOINT PRINCIPAL DEL SIMULADOR
+=======
+# 📌 ENDPOINT PRINCIPAL SIMULADOR
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
 # ============================================================
 @router.post("/", response_model=List[OpcionPostulacion])
 @router.post("/simular", response_model=List[OpcionPostulacion])
@@ -97,7 +112,11 @@ def simular(data: dict, db: Session = Depends(get_db)):
                 puntaje_ponderado=ponderado,
                 puntaje_corte=corte,
                 margen=ponderado - corte,
+<<<<<<< HEAD
                 ano=2024,   # ← FIX DEFINITIVO
+=======
+                ano=r["ano"],
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
             )
         )
 
@@ -105,7 +124,11 @@ def simular(data: dict, db: Session = Depends(get_db)):
 
 
 # ============================================================
+<<<<<<< HEAD
 # 📌 DETALLE INDIVIDUAL DE UNA CARRERA
+=======
+# 📌 DETALLE INDIVIDUAL DE CARRERA
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
 # ============================================================
 @router.get("/detalle/{carrera_id}", response_model=DetalleCarrera)
 def detalle_carrera(carrera_id: int, db: Session = Depends(get_db)):
@@ -156,6 +179,7 @@ def detalle_carrera(carrera_id: int, db: Session = Depends(get_db)):
         latitud=row["latitud"],
         longitud=row["longitud"],
     )
+<<<<<<< HEAD
 
 
 # ============================================================
@@ -210,3 +234,5 @@ def simular(data: SimulacionRequest):
 
     return resultados
 
+=======
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d

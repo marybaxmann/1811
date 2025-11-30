@@ -31,6 +31,7 @@ class UniversidadOut(BaseModel):
     sitio_web: Optional[str] = None
     direccion: Optional[str] = None
     class Config:
+<<<<<<< HEAD
         from_attributes = True
 
 class SimulacionRequest(BaseModel):
@@ -43,3 +44,6 @@ class SimulacionRequest(BaseModel):
     puntaje_ranking: float
 
         
+=======
+        from_attributes = True
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d

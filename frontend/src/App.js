@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
+=======
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Inicio from "./pages/Inicio";
 import Simulador from "./pages/Simulador";
 import Opciones from "./pages/Opciones";
+<<<<<<< HEAD
 import Favoritos from "./pages/Favoritos";
 import "./App.css";
 
@@ -49,6 +53,12 @@ function App() {
     };
   }, []);
 
+=======
+import Detalles from "./pages/Detalles";
+import "./App.css";
+
+function App() {
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
   return (
     <Router>
       <header className="navbar">
@@ -59,11 +69,14 @@ function App() {
               <li><Link to="/">Inicio</Link></li>
               <li><Link to="/simulador">Simular</Link></li>
               <li><Link to="/opciones">Opciones</Link></li>
+<<<<<<< HEAD
               {usuarioRegistrado && (
                 <li>
                   <Link to="/favoritos">Mis Favoritos ({favoritosCount})</Link>
                 </li>
               )}
+=======
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
             </ul>
           </nav>
         </div>
@@ -74,7 +87,10 @@ function App() {
           <Route path="/" element={<Inicio />} />
           <Route path="/simulador" element={<Simulador />} />
           <Route path="/opciones" element={<Opciones />} />
+<<<<<<< HEAD
           <Route path="/favoritos" element={<Favoritos />} />
+=======
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
         </Routes>
       </main>
 

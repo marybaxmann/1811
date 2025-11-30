@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+<<<<<<< HEAD
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pathlib import Path
@@ -10,15 +11,23 @@ from app import simulador
 # ============================
 # APP BASE
 # ============================
+=======
+from app import simulador
+
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
 app = FastAPI(
     title="Simulador PAES API",
     version="1.0.0",
     contact={"name": "Simulador PAES"},
 )
 
+<<<<<<< HEAD
 # ============================
 # CORS
 # ============================
+=======
+# Middleware CORS
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -27,6 +36,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+<<<<<<< HEAD
 # ============================
 # STATIC SIN CACHE
 # ============================
@@ -85,6 +95,21 @@ def spa(full_path: str):
 # ============================
 # LOCAL SERVER
 # ============================
+=======
+# Incluir router principal
+app.include_router(simulador.router)
+
+# Endpoints base de verificación
+@app.get("/", tags=["default"])
+def root():
+    return {"ok": True, "msg": "Simulador PAES API"}
+
+@app.get("/health", tags=["default"])
+def health():
+    return {"status": "ok"}
+
+
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

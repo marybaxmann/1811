@@ -75,7 +75,11 @@ function Simulador() {
         return;
       }
 
+<<<<<<< HEAD
       const res = await fetch("/simulador/", {
+=======
+      const res = await fetch("http://127.0.0.1:8000/simulador/", {
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -201,6 +205,17 @@ function Simulador() {
           </div>
 
           <button
+<<<<<<< HEAD
+=======
+            type="button"
+            className="boton-secundario"
+            onClick={usarValoresDefault}
+          >
+            No sé mi NEM/Ranking
+          </button>
+
+          <button
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
             type="submit"
             className="boton-simular"
             disabled={loading}

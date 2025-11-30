@@ -3915,6 +3915,9 @@ ALTER TABLE ONLY public.carreras
 
 \unrestrict alHZYbRNEuflsqkRCHSJg0r75fNBZmcEPdmy69U1hYqWfF2DfYMal7vHsNp2stR
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d

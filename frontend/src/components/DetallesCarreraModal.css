@@ -1,7 +1,15 @@
 .modal-overlay {
   position: fixed;
+<<<<<<< HEAD
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
+=======
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.65);
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,6 +17,7 @@
 }
 
 .modal-content {
+<<<<<<< HEAD
   background: white;
   width: 65%;
   max-width: 850px;
@@ -16,10 +25,27 @@
   border-radius: 20px;
   position: relative;
   text-align: center;
+=======
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 550px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: aparecer 0.2s ease-out;
+}
+
+@keyframes aparecer {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
 }
 
 .modal-close {
   position: absolute;
+<<<<<<< HEAD
   top: -25px;
   left: 50%;
   transform: translateX(-50%);
@@ -29,4 +55,26 @@
   padding: 8px 14px;
   cursor: pointer;
   border: 2px solid #ccc;
+=======
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.modal-grid p {
+  margin: 8px 0;
+}
+
+.btn-mapa {
+  display: inline-block;
+  margin-top: 10px;
+  background: #1976d2;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+>>>>>>> 5f20d2a48d4719d8230b9f25f2f8270c731b931d
 }
