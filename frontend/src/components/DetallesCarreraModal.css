@@ -45,3 +45,23 @@
 .btn-ver-mas-uni:hover {
   background-color: #003fbb;
 }
+.tabs-auth {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.tabs-auth button {
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #ddd;
+  font-weight: bold;
+}
+
+.tabs-auth button.active {
+  background: #0066ff;
+  color: white;
+}

@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 
 # -------- Entradas --------
 class SimularRequest(BaseModel):
-    ano: int = Field(..., ge=2000, le=2100)
+    ano: int = 2024   # Año fijo por defecto
     lenguaje: float
     matematicas: float
     matematicas2: float
@@ -11,9 +11,10 @@ class SimularRequest(BaseModel):
     historia: float
     nem: float
     ranking: float
-    universidad: Optional[str] = None  # filtro "contiene"
-    carrera: Optional[str] = None      # filtro "contiene"
+    universidad: Optional[str] = None
+    carrera: Optional[str] = None
     limit: int = 2000
+
 
 # -------- Salidas --------
 class OpcionPostulacion(BaseModel):

@@ -8,32 +8,36 @@ from fastapi import HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from os import getenv
 
-# 🔐 Hashing
+# Hashing
 PWD_CONTEXT = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# 🔑 JWT (desde .env)
-SECRET_KEY = getenv("SECRET_KEY", "dev-secret-key")   # ← CORREGIDO
+# JWT Config
+SECRET_KEY = getenv("SECRET_KEY", "dev-secret-key")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 # OAuth2
 OAUTH2_SCHEME = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
-# ------------------ HASH ------------------
+# ---------------- HASH ----------------
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return PWD_CONTEXT.verify(plain_password, hashed_password)
 
 def get_password_hash(password: str) -> str:
     return PWD_CONTEXT.hash(password)
 
-# ------------------ JWT ------------------
+# ---------------- JWT ----------------
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+    """
+    Espera un diccionario con al menos:
+    {
+        "sub": "user_id",
+        "email": "correo"
+    }
+    """
 
-    if "email" not in data:
-        raise ValueError("El token requiere el campo 'email'")
-
-    if "user_id" not in data:
-        raise ValueError("El token requiere el campo 'user_id'")   # ← NUEVO
+    if "sub" not in data:
+        raise ValueError("El token requiere el campo 'sub' (user_id)")
 
     to_encode = data.copy()
 
@@ -44,13 +48,13 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode.update({
         "exp": expire,
         "iat": datetime.now(timezone.utc),
-        "sub": str(data["user_id"]),     # ← ahora sub es el id
     })
 
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 
 def decode_access_token(token: str) -> dict:
+
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         return payload
