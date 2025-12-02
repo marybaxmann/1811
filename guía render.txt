@@ -1,0 +1,34 @@
+🧩 1️⃣ Qué deben hacer tus compañeros
+
+Cada integrante solo necesita:
+
+Clonar tu repositorio (por ejemplo, desde GitHub o Drive).
+
+git clone <tu_repo>
+cd backend
+
+
+Crear su propio archivo .env dentro de la carpeta backend con este contenido exacto 👇
+
+DATABASE_URL=postgresql+psycopg2://demre2024_full_user:WsuGr8Tm4DqoIH7xzaV8usIC37Bh5K1Q@dpg-d43pgb63jp1c73ah5ut0-a.oregon-postgres.render.com/demre2024_full?sslmode=require
+
+DB_HOST=dpg-d43pgb63jp1c73ah5ut0-a.oregon-postgres.render.com
+DB_PORT=5432
+DB_NAME=demre2024_full
+DB_USER=demre2024_full_user
+DB_PASS=WsuGr8Tm4DqoIH7xzaV8usIC37Bh5K1Q
+
+
+Instalar dependencias:
+
+pip install fastapi uvicorn sqlalchemy psycopg2-binary python-dotenv pandas alembic
+
+
+Correr el backend:
+
+uvicorn app.main:app --reload
+
+
+Ir al navegador y abrir:
+
+http://127.0.0.1:8000/docs

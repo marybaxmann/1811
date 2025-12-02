@@ -1,0 +1,70 @@
+📘 GUÍA PARA CONECTARSE AL PROYECTO SimuladorPAES
+🧩 Paso 1: Clonar el repositorio desde GitHub
+Abrir Visual Studio Code → Terminal → y escribir:
+git clone https://github.com/renxta/SimuladorPAES.git
+cd SimuladorPAES/backend
+
+
+⚙️ Paso 2: Crear el archivo .env
+Dentro de la carpeta backend, crear un nuevo archivo llamado .env
+👉 Luego, pegar este contenido exacto:
+DATABASE_URL=postgresql+psycopg2://demre2024_full_user:WsuGr8Tm4DqoIH7xzaV8usIC37Bh5K1Q@dpg-d43pgb63jp1c73ah5ut0-a.oregon-postgres.render.com/demre2024_full?sslmode=require
+
+💡 Este archivo conecta el proyecto con la base de datos que ya está en la nube (Render).
+
+🧠 Paso 3: Verificar el archivo db.py
+Asegúrense de que el archivo backend/app/db.py tenga este código:
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise ValueError("❌ No se encontró DATABASE_URL en el archivo .env")
+
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+📦 Paso 4: Instalar las dependencias
+Ejecutar en la terminal (dentro de la carpeta backend):
+pip install fastapi uvicorn sqlalchemy psycopg2-binary python-dotenv pandas alembic
+
+
+🚀 Paso 5: Levantar el backend
+Ejecutar:
+uvicorn app.main:app --reload
+
+Luego abrir en el navegador:
+http://127.0.0.1:8000/docs
+
+
+✅ Paso 6: Probar la conexión
+Dentro de la página que se abre (/docs), probar los endpoints:
+
+
+GET /universidades → debe mostrar 8 universidades
+
+
+GET /carreras → debe mostrar 120 carreras
+
+
+Si ves eso, significa
+
+🗄️ 2.3. Base de Datos
+
+Sistema: PostgreSQL (migrado desde MySQL por compatibilidad y rendimiento)
+
+Alojamiento: Render (base de datos en la nube con acceso remoto)

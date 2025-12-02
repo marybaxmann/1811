@@ -1,0 +1,78 @@
+.filtros-container {
+  background-color: #fdecec;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 30px auto;
+  width: 90%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.filtros-box {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.filtros-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.filtros-grid select {
+  width: 100%;
+  padding: 6px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.switch-container {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 24px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 24px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: 0.3s;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .slider {
+  background-color: #7a1c1c;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
