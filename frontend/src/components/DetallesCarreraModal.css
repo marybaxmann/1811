@@ -30,3 +30,18 @@
   cursor: pointer;
   border: 2px solid #ccc;
 }
+.btn-ver-mas-uni {
+  display: inline-block;
+  background-color: #0057ff;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: background 0.2s ease;
+}
+
+.btn-ver-mas-uni:hover {
+  background-color: #003fbb;
+}

@@ -58,3 +58,35 @@ class Token(BaseModel):
     
 class TokenData(BaseModel):
     email: Optional[str] = None
+    # -------- Detalle de Carrera --------
+class DetalleCarrera(BaseModel):
+    id: int
+    nombre: str
+    area: Optional[str] = None
+    duracion: Optional[int] = None
+    vacantes: Optional[int] = None
+    arancel: Optional[int] = None
+
+    # Universidad
+    universidad_id: int
+    universidad: str
+    acreditacion: Optional[int] = None
+    tipo_acreditacion: Optional[str] = None
+    sitio_web: Optional[str] = None
+    direccion: Optional[str] = None
+    region: Optional[str] = None
+
+    # Ponderaciones
+    w_lenguaje: float = 0
+    w_matematicas: float = 0
+    w_matematicas2: float = 0
+    w_ciencias: float = 0
+    w_historia: float = 0
+    w_nem: float = 0
+    w_ranking: float = 0
+
+    # Puntajes de corte
+    puntajes_corte: Optional[List[dict]] = None
+
+    class Config:
+        from_attributes = True

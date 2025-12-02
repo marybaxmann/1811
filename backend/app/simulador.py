@@ -99,9 +99,87 @@ def simular(data: schemas.SimularRequest, db: Session = Depends(get_db)):
 # ============================================================
 @router.get("/detalle/{carrera_id}", response_model=DetalleCarrera)
 def detalle_carrera(carrera_id: int, db: Session = Depends(get_db)):
-    # ... (código existente)
-    # NOTA: Asegúrate de que DetalleCarrera esté definido/importado correctamente.
-    pass # Código de detalle_carrera omitido por brevedad.
+
+    sql = text("""
+        SELECT 
+            c.id,
+            c.nombre,
+            c.area,
+            c.duracion,
+            c.vacantes,
+            c.arancel,
+
+            u.id AS universidad_id,
+            u.nombre AS universidad,
+            u.acreditacion,
+            u.tipo_acreditacion,
+            u.sitio_web,
+            u.direccion,
+            u.region,
+
+            p.w_lenguaje,
+            p.w_matematicas,
+            p.w_matematicas2,
+            p.w_ciencias,
+            p.w_historia,
+            p.w_nem,
+            p.w_ranking
+
+        FROM carreras c
+        JOIN universidades u ON u.id = c.universidad_id
+        LEFT JOIN ponderaciones p ON p.carrera_id = c.id
+        WHERE c.id = :cid
+        LIMIT 1
+    """)
+
+    row = db.execute(sql, {"cid": carrera_id}).mappings().first()
+
+    if not row:
+        raise HTTPException(404, "Carrera no encontrada")
+
+    # Obtener historial de puntajes de corte
+    puntajes = db.execute(text("""
+        SELECT ano, puntaje_minimo
+        FROM puntajes_corte
+        WHERE carrera_id = :cid
+        ORDER BY ano DESC
+    """), {"cid": carrera_id}).mappings().all()
+
+    puntajes_list = [
+        {
+            "ano": int(p["ano"]),
+            "puntaje_minimo": float(p["puntaje_minimo"])
+        }
+        for p in puntajes
+    ]
+
+    return DetalleCarrera(
+        id=row["id"],
+        nombre=row["nombre"],
+        area=row["area"],
+        duracion=row["duracion"],
+        vacantes=row["vacantes"],
+        arancel=row["arancel"],
+
+        universidad_id=row["universidad_id"],
+        universidad=row["universidad"],
+        acreditacion=row["acreditacion"],
+        tipo_acreditacion=row["tipo_acreditacion"],
+        sitio_web=row["sitio_web"],
+        direccion=row["direccion"],
+        region=row["region"],
+
+        w_lenguaje=float(row["w_lenguaje"] or 0),
+        w_matematicas=float(row["w_matematicas"] or 0),
+        w_matematicas2=float(row["w_matematicas2"] or 0),
+        w_ciencias=float(row["w_ciencias"] or 0),
+        w_historia=float(row["w_historia"] or 0),
+        w_nem=float(row["w_nem"] or 0),
+        w_ranking=float(row["w_ranking"] or 0),
+
+        puntajes_corte=puntajes_list
+    )
+
 
 
 # ============================================================

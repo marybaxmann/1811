@@ -57,6 +57,7 @@ function Simulador() {
 
     try {
       const payload = {
+        ano: 2024,
         lenguaje: parseFloat(formData.lenguaje) || 0,
         matematicas: parseFloat(formData.matematicas) || 0,
         matematicas2: parseFloat(formData.matematicas2) || 0,

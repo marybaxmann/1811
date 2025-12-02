@@ -7,16 +7,13 @@ function DetallesCarreraModal({ abierta, onCerrar, carrera }) {
   useEffect(() => {
     if (!abierta || !carrera) return;
 
-    fetch(`/simulador/detalle/${carrera.carrera_id}`)
+    fetch(`/simulador/detalle/${carrera.id}`)
       .then((r) => r.json())
       .then(setDetalles);
   }, [abierta, carrera]);
 
   if (!abierta || !detalles) return null;
 
-  // ================================
-  // FORMATO ARANCEL
-  // ================================
   const arancelFormateado =
     detalles.arancel && !isNaN(detalles.arancel)
       ? `$${detalles.arancel.toLocaleString("es-CL")}`
@@ -66,6 +63,21 @@ function DetallesCarreraModal({ abierta, onCerrar, carrera }) {
         </p>
 
         <p><strong>Región:</strong> {detalles.region ?? "No informada"}</p>
+
+        {/* 🔹 BOTÓN NUEVO */}
+        {detalles.sitio_web && (
+          <div style={{ marginTop: "20px", textAlign: "center" }}>
+            <a
+              href={detalles.sitio_web}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-ver-mas-uni"
+            >
+              🔗 Ver más en la universidad
+            </a>
+          </div>
+        )}
+
       </div>
     </div>
   );
